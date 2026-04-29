@@ -51,4 +51,4 @@ export const videos: Video[] = [
   }
 ];
 
-export const youtubeChannelUrl = "https://www.youtube.com/@francosebastian22";
+export const youtubeChannelUrl = "https://www.youtube.com/channel/UC5fLT1qMxEEiMAeuuRNoSNQ";

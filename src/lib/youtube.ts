@@ -5,7 +5,7 @@ export interface YouTubeVideo {
   youtubeId: string;
 }
 
-export async function getLatestVideos(channelId: string, maxResults: number = 6): Promise<YouTubeVideo[]> {
+export async function getLatestVideos(channelId: string, maxResults: number = 9): Promise<YouTubeVideo[]> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) {
     throw new Error("YOUTUBE_API_KEY is not defined");
