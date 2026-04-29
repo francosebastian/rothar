@@ -23,7 +23,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display text-[#E6DAB9] tracking-wider mb-4 animate-fade-in-up">
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-display tracking-[-0.05em] text-[#E6DAB9]  scale-y-110 tracking-wider mb-4 animate-fade-in-up">
           ROTHAR
         </h1>
         <p className="text-xl md:text-2xl text-[#E6DAB9]/80 font-display tracking-widest mb-2 animate-fade-in-up delay-100">

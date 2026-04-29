@@ -1,8 +1,18 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { videos, youtubeChannelUrl } from "@/data/videos";
+import { getLatestVideos, YouTubeVideo } from "@/lib/youtube";
+import { youtubeChannelUrl } from "@/data/videos";
 
-export default function VideosPage() {
+export default async function VideosPage() {
+  const channelId = process.env.YOUTUBE_CHANNEL_ID;
+  let videos: YouTubeVideo[] = [];
+  
+  try {
+    videos = await getLatestVideos(channelId);
+  } catch (error) {
+    console.error("Error fetching videos:", error);
+  }
+
   return (
     <main className="flex min-h-screen flex-col">
       <Navbar />
@@ -57,8 +67,7 @@ export default function VideosPage() {
                   <h3 className="text-xl font-display text-[#E6DAB9] tracking-wider mb-4 group-hover:text-[#E6DAB9] transition-colors">
                     {video.title}
                   </h3>
-                  <div className="flex items-center justify-between text-sm text-[#E6DAB9]/70">
-                    <span>{video.views} reproducciones</span>
+                  <div className="flex items-center justify-end text-sm text-[#E6DAB9]/70">
                     <a
                       href={`https://youtube.com/watch?v=${video.youtubeId}`}
                       target="_blank"
