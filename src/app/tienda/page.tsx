@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CartSummary from "@/components/CartSummary";
+import ProductCard from "@/components/ProductCard";
 import { products, categories } from "@/data/products";
 
 export default function TiendaPage() {
@@ -47,41 +49,13 @@ export default function TiendaPage() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-[#084C4C] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <span className="absolute top-4 right-4 bg-[#E6DAB9] text-[#084C4C] text-xs font-medium px-3 py-1 uppercase">
-                    {product.category}
-                  </span>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-display text-[#E6DAB9] tracking-wider mb-2">
-                    {product.name}
-                  </h3>
-                  <p className="text-[#E6DAB9]/70 text-sm mb-4 line-clamp-2">
-                    {product.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-display text-[#E6DAB9]">
-                      ${product.price.toLocaleString('es-CL')}
-                    </span>
-                    <button className="bg-[#E6DAB9] text-[#084C4C] px-4 py-2 text-sm font-medium hover:bg-[#d4c9a5] transition-colors uppercase">
-                      Agregar al carro
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+             {filteredProducts.map((product) => (
+               <ProductCard key={product.id} product={product} />
+             ))}
+           </div>
+
+           <CartSummary />
         </div>
       </section>
 

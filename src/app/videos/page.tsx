@@ -5,7 +5,7 @@ import VideoGrid from "@/components/VideoGrid";
 import { youtubeChannelUrl } from "@/data/videos";
 
 export default async function VideosPage() {
-  const channelId = process.env.YOUTUBE_CHANNEL_ID;
+  const channelId = "UCWnXLUTz4bgGJUtetWmvg1A";
   let videos: YouTubeVideo[] = [];
 
   try {

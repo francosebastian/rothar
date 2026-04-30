@@ -16,8 +16,8 @@ export default function Hero() {
         <Image 
           src="/taller.png" 
           alt="Taller Rothar" 
-          layout="fill" 
-          objectFit="cover" 
+          fill
+          style={{ objectFit: 'cover' }}
           quality={80} 
         />
       </div>
