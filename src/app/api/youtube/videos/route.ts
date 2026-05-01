@@ -8,7 +8,14 @@ export async function GET(request: NextRequest) {
 
   try {
     const videos = await getLatestVideos(channelId, maxResults);
-    return NextResponse.json({ videos });
+    return NextResponse.json(
+      { videos },
+      { 
+        headers: {
+          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=43200'
+        }
+      }
+    );
   } catch (error) {
     console.error('Error fetching YouTube videos:', error);
     return NextResponse.json(

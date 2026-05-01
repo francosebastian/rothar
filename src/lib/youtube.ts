@@ -13,7 +13,9 @@ export async function getLatestVideos(channelId: string, maxResults: number = 9)
 
   const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}&type=video`;
   
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    next: { revalidate: 86400 }
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch videos from YouTube");
   }
