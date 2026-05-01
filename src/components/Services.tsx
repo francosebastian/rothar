@@ -9,7 +9,7 @@ const services = [
   {
     icon: "⚙️",
     title: "REPARACIONES",
-    description: "Arreglo de pinchazos, cambio de cubiertas, perbaikan de cambios, Frenos y transmisión."
+    description: "Arreglo de pinchazos, cambio de cubiertas, ajuste de cambios, Frenos y transmisión."
   },
   {
     icon: "🎨",

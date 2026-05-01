@@ -20,7 +20,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-display text-[#084C4C] tracking-wider">DIRECCIÓN</h4>
-                  <p className="text-[#084C4C]/70">Calle Falsa 123, Santiago, Chile</p>
+                  <p className="text-[#084C4C]/70">Pasaje Los Alvarado, Bollenar, Chile</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -29,7 +29,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-display text-[#084C4C] tracking-wider">TELÉFONO</h4>
-                  <p className="text-[#084C4C]/70">+56 9 1234 5678</p>
+                  <p className="text-[#084C4C]/70">+56959511421</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -44,39 +44,17 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="bg-[#084C4C] p-8 shadow-xl">
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-[#E6DAB9] mb-1">Nombre</label>
-                <input
-                  type="text"
-                  className="w-full bg-[#063d3d] border-none px-4 py-3 focus:ring-2 focus:ring-[#E6DAB9] transition-all outline-none text-[#E6DAB9] placeholder-[#E6DAB9]/50"
-                  placeholder="Tu nombre"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#E6DAB9] mb-1">Email</label>
-                <input
-                  type="email"
-                  className="w-full bg-[#063d3d] border-none px-4 py-3 focus:ring-2 focus:ring-[#E6DAB9] transition-all outline-none text-[#E6DAB9] placeholder-[#E6DAB9]/50"
-                  placeholder="tu@email.com"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#E6DAB9] mb-1">Mensaje</label>
-                <textarea
-                  rows={4}
-                  className="w-full bg-[#063d3d] border-none px-4 py-3 focus:ring-2 focus:ring-[#E6DAB9] transition-all outline-none resize-none text-[#E6DAB9] placeholder-[#E6DAB9]/50"
-                  placeholder="¿En qué podemos ayudarte?"
-                ></textarea>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-[#E6DAB9] text-[#084C4C] py-4 font-display text-xl tracking-wider hover:bg-[#d4c9a5] transition-colors"
-              >
-                ENVIAR MENSAJE
-              </button>
-            </form>
+          <div className="bg-[#084C4C] p-1 shadow-xl overflow-hidden" style={{ height: '400px' }}>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3321.464604921671!2d-71.1894602!3d-33.5709681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662f73496af0b1d%3A0x14be43b6edb28d8e!2sRothar!5e0!3m2!1ses!2scl!4v1714532000000!5m2!1ses!2scl"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Ubicación Rothar Workshop"
+            ></iframe>
           </div>
         </div>
       </div>
