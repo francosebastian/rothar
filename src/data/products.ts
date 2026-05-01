@@ -13,7 +13,7 @@ export const products: Product[] = [
     name: "Cadena Shimano HG54",
     price: 18900,
     category: "Transmisión",
-    image: "https://derman.cl/7352-large_default/cadena-shimano-10-vel-cn-hg54-deore.jpg",
+    image: "https://i0.wp.com/www.evobikes.cl/wp-content/uploads/2023/07/cadena_m8100.jpg?fit=700%2C700&ssl=1",
     description: "Cadena de 6-7-8 velocidades compatible con la mayoría de bicis urbanas y de montaña."
   },
   {

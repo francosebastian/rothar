@@ -50,16 +50,14 @@ export default function Services() {
             </div>
           ))}
         </div>
-
-        <div className="text-center">
+        <div className="text-center mt-8">
           <Link
-              href="/videos"
+              href="/servicios"
               className="inline-block bg-[#E6DAB9] text-[#084C4C] px-8 py-4 font-display text-xl tracking-wider hover:bg-[#d4c9a5] transition-colors"
           >
             AGENDA EN LINEA
           </Link>
         </div>
-        
       </div>
     </section>
   );

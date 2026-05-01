@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartSummary from "@/components/CartSummary";
@@ -8,9 +9,16 @@ import ProductCard from "@/components/ProductCard";
 import { products, categories } from "@/data/products";
 
 export default function TiendaPage() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('q') || '';
   const [activeCategory, setActiveCategory] = useState("Todos");
 
-  const filteredProducts = activeCategory === "Todos"
+  const filteredProducts = searchQuery
+    ? products.filter(p => 
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : activeCategory === "Todos"
     ? products
     : products.filter(p => p.category === activeCategory);
 

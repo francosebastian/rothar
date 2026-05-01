@@ -41,7 +41,7 @@ export default function CartPage() {
       
       <section className="flex-1 py-20 bg-[#E6DAB9]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-display text-[#084C4C] tracking-wider mb-8">
+          <h1 className="text-4xl mt-8 md:text-5xl font-display text-[#084C4C] tracking-wider mb-8">
             CARRITO DE COMPRAS
           </h1>
 

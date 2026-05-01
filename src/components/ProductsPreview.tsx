@@ -52,7 +52,6 @@ export default function ProductsPreview() {
             </div>
           ))}
         </div>
-
         <div className="text-center">
           <Link
             href="/tienda"

@@ -41,13 +41,13 @@ export default function Hero() {
             href="/servicios"
             className="bg-[#E6DAB9] text-[#084C4C] px-8 py-4 font-display text-xl tracking-wider hover:bg-[#d4c9a5] transition-colors"
           >
-            SERVICIOS
+            TALLER
           </Link>
           <Link
-            href="/#contacto"
+            href="/tienda"
             className="border-2 border-[#E6DAB9] text-[#E6DAB9] px-8 py-4 font-display text-xl tracking-wider hover:bg-[#E6DAB9] hover:text-[#084C4C] transition-colors"
           >
-            CONTACTAR
+            TIENDA
           </Link>
         </div>
       </div>
