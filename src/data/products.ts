@@ -13,7 +13,7 @@ export const products: Product[] = [
     name: "Cadena Shimano HG54",
     price: 18900,
     category: "Transmisión",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
+    image: "https://derman.cl/7352-large_default/cadena-shimano-10-vel-cn-hg54-deore.jpg",
     description: "Cadena de 6-7-8 velocidades compatible con la mayoría de bicis urbanas y de montaña."
   },
   {
@@ -21,7 +21,7 @@ export const products: Product[] = [
     name: "Pastillas de Freno Shimano",
     price: 12500,
     category: "Frenos",
-    image: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=400&h=400&fit=crop",
+    image: "https://cdnx.jumpseller.com/full-bike/image/41315570/resize/1122/1122?1743093532",
     description: "Pastillas de freno orgánicas para Shimano Deore, XT, SLX."
   },
   {
@@ -29,7 +29,7 @@ export const products: Product[] = [
     name: "Neumático Continental City",
     price: 28500,
     category: "Ruedas",
-    image: "https://images.unsplash.com/photo-1558618047-f4b511d88421?w=400&h=400&fit=crop",
+    image: "https://mibicio.cl/wp-content/uploads/2022/05/contact.jpg",
     description: "Neumático resistente para ciudad, 700x35c, con protección antipinchazos."
   },
   {
@@ -37,7 +37,7 @@ export const products: Product[] = [
     name: "Manillar BMX Pro",
     price: 35000,
     category: "Dirección",
-    image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&h=400&fit=crop",
+    image: "https://roda.cl/cdn/shop/files/1894_4f228a33-af30-4907-b71e-6c6de34b03f6.jpg?v=1709664708&width=1445",
     description: "Manillar de acero cromado, 8.5\" rise, para BMX y dirt."
   },
   {
@@ -45,16 +45,16 @@ export const products: Product[] = [
     name: "Sillin Gel Comfort",
     price: 22000,
     category: "Sillin",
-    image: "https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=400&h=400&fit=crop",
+    image: "https://mibicio.cl/wp-content/uploads/2022/05/27320-130_SDDL_BG-COMFORT-GEL-SADDLE-BLK-200_HERO.jpg",
     description: "Sillin acolchado con gel para mayor comodidad en trayectos largos."
   },
   {
     id: "6",
-    name: "Cenital Shimano Altus",
+    name: "Pata de cambio Microshift",
     price: 45000,
     category: "Transmisión",
-    image: "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?w=400&h=400&fit=crop",
-    description: "Cambio trasero Shimano Altus 8 velocidades, índice para MTB."
+    image: "https://satiro.cl/cdn/shop/files/Pata-de-cambio-Microshift-10v-web.jpg?v=1736641408&width=1445",
+    description: "Cambio trasero Microshift."
   }
 ];
 
