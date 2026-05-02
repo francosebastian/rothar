@@ -21,16 +21,16 @@ const BookingAndPricingPage: React.FC = () => {
                 </div>
             </section>
 
-            <section className="py-12 px-12 bg-[#E6DAB9]">
+            <section className="py-12  bg-[#E6DAB9]">
                 <div className="max-w-24xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        {/* Sección del Formulario de Agendamiento */}
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <iframe
-                                src="https://clicmecanica.com/public/booking/6mbzcuwify"
-                                className="w-full h-[1300px] border-none rounded-md"
-                                title="Formulario de Agendamiento de Servicios"
-                            ></iframe>
-                        </div>
+                    {/* Sección del Formulario de Agendamiento */}
+                    <div className="bg-white rounded-lg shadow-md">
+                        <iframe
+                            src="https://clicmecanica.com/public/booking/6mbzcuwify"
+                            className="w-full h-[2000px] border-none rounded-md"
+                            title="Formulario de Agendamiento de Servicios"
+                        ></iframe>
+                    </div>
                 </div>
             </section>
             <Footer/>
