@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,7 +8,7 @@ import CartSummary from "@/components/CartSummary";
 import ProductCard from "@/components/ProductCard";
 import { products, categories } from "@/data/products";
 
-export default function TiendaPage() {
+function TiendaContent() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
   const [activeCategory, setActiveCategory] = useState("Todos");
@@ -69,5 +69,13 @@ export default function TiendaPage() {
 
       <Footer />
     </main>
+  );
+}
+
+export default function TiendaPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
+      <TiendaContent />
+    </Suspense>
   );
 }
