@@ -27,7 +27,7 @@ const BookingAndPricingPage: React.FC = () => {
                     <div className="bg-white rounded-lg shadow-md">
                         <iframe
                             src="https://clicmecanica.com/public/booking/6mbzcuwify"
-                            className="w-full h-[2000px] border-none rounded-md"
+                            className="w-full h-[2300px] border-none rounded-md"
                             title="Formulario de Agendamiento de Servicios"
                         ></iframe>
                     </div>

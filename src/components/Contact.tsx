@@ -20,7 +20,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-display text-[#084C4C] tracking-wider">DIRECCIÓN</h4>
-                  <p className="text-[#084C4C]/70">Pasaje Los Alvarado, Bollenar, Chile</p>
+                  <p className="text-[#084C4C]/70">Pasaje Los Alvarado #7361, Bollenar, Chile</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -38,7 +38,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-display text-[#084C4C] tracking-wider">EMAIL</h4>
-                  <p className="text-[#084C4C]/70">contacto@rothar.cl</p>
+                  <p className="text-[#084C4C]/70">contacto@rotharworshop.cl</p>
                 </div>
               </div>
             </div>

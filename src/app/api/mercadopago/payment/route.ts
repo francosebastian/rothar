@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma'
 
 const MP_ACCESS_TOKEN = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
@@ -40,6 +41,8 @@ export async function POST(request: NextRequest) {
       external_reference: external_reference,
     };
 
+    const idempotencyKey = `payment_${external_reference}_${transaction_amount}`;
+
     console.log('[PAYMENT] Sending to MercadoPago:', JSON.stringify(paymentData, null, 2));
 
     const response = await fetch('https://api.mercadopago.com/v1/payments', {
@@ -47,6 +50,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${MP_ACCESS_TOKEN}`,
+        'X-Idempotency-Key': idempotencyKey,
       },
       body: JSON.stringify(paymentData),
       signal: AbortSignal.timeout(30000),
@@ -60,6 +64,22 @@ export async function POST(request: NextRequest) {
         { error: data.error || data.message || 'Error al procesar el pago', details: data },
         { status: response.status }
       );
+    }
+
+    // Update order status to PAID if payment is approved
+    if (data.status === 'approved' && external_reference) {
+      try {
+        await prisma.order.update({
+          where: { id: external_reference },
+          data: { 
+            status: 'PAID',
+            paymentId: data.id?.toString(),
+          },
+        });
+        console.log('[PAYMENT] Order updated to PAID:', external_reference);
+      } catch (updateError) {
+        console.error('[PAYMENT] Error updating order:', updateError);
+      }
     }
 
     return NextResponse.json(data);

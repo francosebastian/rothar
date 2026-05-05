@@ -1,11 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Product } from '@/data/products';
 import { useCartStore } from '@/lib/store';
 
 interface ProductCardProps {
-  product: Product;
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    category: string;
+    image: string;
+    description: string;
+    stock: number;
+  };
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
@@ -14,7 +21,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleAddToCart = () => {
     addItem({
-      id: `producto-${product.id}`,
+      id: product.id,
       nombre: product.name,
       precio: product.price,
       cantidad: 1,

@@ -4,8 +4,8 @@ import {useState, useEffect, useRef} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {usePathname} from 'next/navigation';
+import {useSession, signOut} from 'next-auth/react';
 import {useCartStore} from '@/lib/store';
-import {products} from '@/data/products';
 
 interface NavItem {
     label: string;
@@ -26,18 +26,33 @@ export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState<any[]>([]);
     const [showResults, setShowResults] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
     const itemCount = useCartStore((state) => state.items.reduce((acc, item) => acc + item.cantidad, 0));
     const itemsLength = useCartStore((state) => state.items.length);
 
-    const searchResults = searchQuery.length > 0
-        ? products.filter(p =>
-            p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            p.category.toLowerCase().includes(searchQuery.toLowerCase())
-        ).slice(0, 5)
-        : [];
+    useEffect(() => {
+        const fetchResults = async () => {
+            if (searchQuery.length > 0) {
+                try {
+                    const res = await fetch(`/api/products?search=${encodeURIComponent(searchQuery)}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setSearchResults(data.slice(0, 5));
+                    }
+                } catch (error) {
+                    console.error('Error searching products:', error);
+                }
+            } else {
+                setSearchResults([]);
+            }
+        };
+
+        const debounce = setTimeout(fetchResults, 300);
+        return () => clearTimeout(debounce);
+    }, [searchQuery]);
 
     useEffect(() => {
         setMounted(true);
@@ -61,6 +76,8 @@ export default function Navbar() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const { data: session, status } = useSession();
+    const isAuthenticated = status === 'authenticated';
     const isHome = pathname === '/';
 
     if (!mounted) return null;
@@ -180,6 +197,38 @@ export default function Navbar() {
                                 </span>
                             )}
                         </Link>
+
+                        {isAuthenticated ? (
+                            <div className="flex items-center gap-4">
+                                <Link
+                                    href="/perfil"
+                                    className="text-[#E6DAB9] text-sm hidden md:flex items-center gap-2 hover:text-[#E6DAB9]/70 transition-colors"
+                                >
+                                    <span className="w-8 h-8 bg-[#E6DAB9] text-[#084C4C] rounded-full flex items-center justify-center text-xs font-bold uppercase">
+                                        {(session?.user?.name || session?.user?.email || 'U').split(' ')[0].charAt(0)}
+                                    </span>
+                                    <span className="hidden lg:block">
+                                        {(session?.user?.name || session?.user?.email || 'Usuario').split(' ')[0]}
+                                    </span>
+                                </Link>
+                                <button
+                                    onClick={() => signOut({ callbackUrl: '/' })}
+                                    className="text-[#E6DAB9] hover:text-[#E6DAB9]/70 transition-colors"
+                                    title="Cerrar Sesión"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                </button>
+                            </div>
+                        ) : (
+                            <Link
+                                href="/login"
+                                className="text-[#E6DAB9] hover:text-[#E6DAB9]/70 transition-colors text-sm uppercase tracking-wide"
+                            >
+                                Iniciar Sesión
+                            </Link>
+                        )}
                     </div>
 
                     <button
@@ -230,6 +279,31 @@ export default function Navbar() {
                             {item.label}
                         </Link>
                     ))}
+                    
+                    {isAuthenticated ? (
+                        <>
+                            <div className="text-[#E6DAB9]/70 py-3 text-sm">
+                                {session?.user?.name || session?.user?.email}
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    signOut({ callbackUrl: '/' });
+                                }}
+                                className="block text-[#E6DAB9] py-3 hover:text-[#E6DAB9]/70 transition-colors uppercase cursor-pointer text-left w-full"
+                            >
+                                Cerrar Sesión
+                            </button>
+                        </>
+                    ) : (
+                        <Link
+                            href="/login"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block text-[#E6DAB9] py-3 hover:text-[#E6DAB9]/70 transition-colors uppercase cursor-pointer"
+                        >
+                            Iniciar Sesión
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>

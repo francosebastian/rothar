@@ -1,8 +1,61 @@
- import Link from 'next/link';
-import { products } from '@/data/products';
+ 'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useCartStore } from '@/lib/store'
+
+interface Product {
+  id: string
+  name: string
+  price: number
+  category: string
+  image: string
+  description: string
+  stock: number
+}
 
 export default function ProductsPreview() {
-  const featuredProducts = products.slice(0, 3);
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const addItem = useCartStore((state) => state.addItem)
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('/api/products')
+        if (res.ok) {
+          const data = await res.json()
+          setProducts(data.slice(0, 3))
+        }
+      } catch (error) {
+        console.error('Error fetching featured products:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProducts()
+  }, [])
+
+  const handleAddToCart = (product: Product) => {
+    addItem({
+      id: product.id,
+      nombre: product.name,
+      precio: product.price,
+      cantidad: 1,
+      imagen: product.image,
+      tipo: 'producto',
+    })
+  }
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-[#E6DAB9]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-[#084C4C]">Cargando productos...</p>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="py-20 bg-[#E6DAB9]">
@@ -18,7 +71,7 @@ export default function ProductsPreview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {featuredProducts.map((product) => (
+          {products.map((product) => (
             <div
               key={product.id}
               className="bg-[#084C4C] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group"
@@ -44,7 +97,10 @@ export default function ProductsPreview() {
                   <span className="text-2xl font-display text-[#E6DAB9]">
                     ${product.price.toLocaleString('es-CL')}
                   </span>
-                  <button className="bg-[#E6DAB9] text-[#084C4C] px-4 py-2 text-sm font-medium hover:bg-[#d4c9a5] transition-colors uppercase">
+                  <button 
+                    onClick={() => handleAddToCart(product)}
+                    className="bg-[#E6DAB9] text-[#084C4C] px-4 py-2 text-sm font-medium hover:bg-[#d4c9a5] transition-colors uppercase"
+                  >
                     Agregar
                   </button>
                 </div>
@@ -62,5 +118,5 @@ export default function ProductsPreview() {
         </div>
       </div>
     </section>
-  );
+  )
 }
