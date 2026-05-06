@@ -34,10 +34,10 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[#063d3d]">
       <div className="flex">
         <AdminNav />
-        <main className="flex-1 p-8">{children}</main>
+        <main className="flex-1 bg-[#E6DAB9] p-8">{children}</main>
       </div>
     </div>
   )

@@ -44,11 +44,18 @@ export default function ProductCard({ product }: ProductCardProps) {
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${product.stock === 0 ? 'opacity-60' : ''}`}
           />
           <span className="absolute top-4 right-4 bg-[#E6DAB9] text-[#084C4C] text-xs font-medium px-3 py-1 uppercase">
             {product.category}
           </span>
+          {product.stock === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="bg-red-600 text-white text-sm font-display tracking-wider px-4 py-2 uppercase">
+                Sin stock
+              </span>
+            </div>
+          )}
         </div>
         <div className="p-6">
           <h3 className="text-xl font-display text-[#E6DAB9] tracking-wider mb-2">
@@ -62,14 +69,17 @@ export default function ProductCard({ product }: ProductCardProps) {
               ${product.price.toLocaleString('es-CL')}
             </span>
             <button 
-              onClick={handleAddToCart}
+              onClick={product.stock === 0 ? undefined : handleAddToCart}
+              disabled={product.stock === 0}
               className={`px-4 py-2 text-sm font-medium transition-colors uppercase ${
-                added 
-                  ? 'bg-green-600 text-white' 
-                  : 'bg-[#E6DAB9] text-[#084C4C] hover:bg-[#d4c9a5]'
+                product.stock === 0
+                  ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                  : added 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-[#E6DAB9] text-[#084C4C] hover:bg-[#d4c9a5]'
               }`}
             >
-              {added ? 'Añadido!' : 'Agregar al carro'}
+              {product.stock === 0 ? 'Sin stock' : added ? 'Añadido!' : 'Agregar al carro'}
             </button>
           </div>
         </div>

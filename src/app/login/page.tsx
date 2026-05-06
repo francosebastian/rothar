@@ -32,22 +32,22 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#063d3d] py-12 px-4">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-[#E6DAB9] uppercase tracking-wide">
             Iniciar Sesión
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-[#E6DAB9]/70">
             O{' '}
-            <a href="/registro" className="font-medium text-blue-600 hover:text-blue-500">
-              regístrate para recibir ofertas y descuentos
+            <a href="/registro" className="font-medium text-[#E6DAB9] hover:text-[#E6DAB9]/80">
+              Registrate para recibir ofertas
             </a>
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            <div className="bg-red-900/20 border border-red-500/50 text-red-400 px-4 py-3 rounded">
               {error}
             </div>
           )}
@@ -63,7 +63,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-[#E6DAB9]/20 bg-[#084C4C] text-[#E6DAB9] placeholder-[#E6DAB9]/50 rounded-t-md focus:outline-none focus:ring-[#E6DAB9] focus:border-[#E6DAB9] focus:z-10 sm:text-sm"
                 placeholder="Email"
               />
             </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-[#E6DAB9]/20 bg-[#084C4C] text-[#E6DAB9] placeholder-[#E6DAB9]/50 rounded-b-md focus:outline-none focus:ring-[#E6DAB9] focus:border-[#E6DAB9] focus:z-10 sm:text-sm"
                 placeholder="Contraseña"
               />
             </div>
@@ -88,7 +88,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-[#084C4C] bg-[#E6DAB9] hover:bg-[#E6DAB9]/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E6DAB9] disabled:opacity-50"
             >
               {loading ? 'Ingresando...' : 'Iniciar Sesión'}
             </button>

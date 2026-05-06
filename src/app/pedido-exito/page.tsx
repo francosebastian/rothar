@@ -36,7 +36,7 @@ export default async function OrderSuccessPage() {
     <main className="flex min-h-screen flex-col">
       <Navbar />
 
-      <section className="flex-1 flex items-center justify-center bg-[#E6DAB9]">
+      <section className="flex-1 flex items-center justify-center bg-[#E6DAB9] py-20 md:py-32">
         <div className="text-center max-w-2xl mx-auto px-4">
           <div className="mb-8">
             <svg

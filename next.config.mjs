@@ -12,6 +12,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'goc9lmmt47.ucarecd.net',
+      },
+      {
+        protocol: 'https',
         hostname: 'placehold.co',
       },
     ],

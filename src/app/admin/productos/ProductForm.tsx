@@ -74,9 +74,9 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <h2 className="text-xl font-semibold mb-4">
-        {product ? 'Editar Producto' : 'Nuevo Producto'}
+    <div className="bg-[#E6DAB9] p-6 rounded-lg shadow">
+      <h2 className="text-xl font-display tracking-wider text-[#084C4C] mb-4">
+        {product ? 'EDITAR PRODUCTO' : 'NUEVO PRODUCTO'}
       </h2>
 
       {error && (
@@ -88,8 +88,8 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Nombre
+            <label className="block text-sm font-medium text-[#084C4C]">
+              NOMBRE
             </label>
             <input
               type="text"
@@ -97,13 +97,13 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
               required
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Slug (URL amigable)
+            <label className="block text-sm font-medium text-[#084C4C]">
+              SLUG (URL AMIGABLE)
             </label>
             <input
               type="text"
@@ -112,13 +112,13 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
               value={formData.slug}
               onChange={handleChange}
               placeholder="ej: cadena-shimano-cn-hg40"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-[#084C4C]">
             SKU
           </label>
           <input
@@ -126,14 +126,14 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
             name="sku"
             value={formData.sku}
             onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Precio
+            <label className="block text-sm font-medium text-[#084C4C]">
+              PRECIO
             </label>
             <input
               type="number"
@@ -143,13 +143,13 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
               step="0.01"
               value={formData.price}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Stock
+            <label className="block text-sm font-medium text-[#084C4C]">
+              STOCK
             </label>
             <input
               type="number"
@@ -158,21 +158,21 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
               min="0"
               value={formData.stock}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Categoría
+          <label className="block text-sm font-medium text-[#084C4C]">
+            CATEGORÍA
           </label>
           <select
             name="category"
             required
             value={formData.category}
             onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
           >
             <option value="">Seleccionar...</option>
             <option value="Transmisión">Transmisión</option>
@@ -185,8 +185,8 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Imagen
+          <label className="block text-sm font-medium text-[#084C4C]">
+            IMAGEN
           </label>
           <ImageUpload
             value={formData.image}
@@ -195,8 +195,8 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Descripción
+          <label className="block text-sm font-medium text-[#084C4C]">
+            DESCRIPCIÓN
           </label>
           <textarea
             name="description"
@@ -204,7 +204,7 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
             rows={3}
             value={formData.description}
             onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className="mt-1 block w-full px-3 py-2 border border-[#084C4C]/30 rounded-md shadow-sm focus:outline-none focus:ring-[#084C4C] focus:border-[#084C4C] sm:text-sm bg-white"
           />
         </div>
 
@@ -214,9 +214,9 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
             name="isActive"
             checked={formData.isActive}
             onChange={handleChange}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-4 w-4 text-[#084C4C] focus:ring-[#084C4C] border-[#084C4C]/30 rounded"
           />
-          <label className="ml-2 block text-sm text-gray-900">
+          <label className="ml-2 block text-sm text-[#084C4C]">
             Producto activo
           </label>
         </div>
@@ -225,17 +225,17 @@ export function ProductForm({ product, onCancel }: { product?: any, onCancel?: (
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+            className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-display tracking-wider text-[#E6DAB9] bg-[#084C4C] hover:bg-[#063d3d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#084C4C] disabled:opacity-50"
           >
-            {loading ? 'Guardando...' : 'Guardar Producto'}
+            {loading ? 'GUARDANDO...' : 'GUARDAR PRODUCTO'}
           </button>
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="flex-1 py-2 px-4 border border-[#084C4C] rounded-md shadow-sm text-sm font-display tracking-wider text-[#084C4C] bg-[#E6DAB9] hover:bg-[#d4c89a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#084C4C]"
             >
-              Cancelar
+              CANCELAR
             </button>
           )}
         </div>
