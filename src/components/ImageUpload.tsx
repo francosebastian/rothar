@@ -22,7 +22,17 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
     setUploading(true)
     try {
       const result = await uploadClient.uploadFile(file)
-      onChange(result.cdnUrl)
+      
+      // Uploadcare returns: https://subdomain.ucarecd.net/UUID/filename
+      console.log('Uploadcare result:', result)
+      console.log('CDN URL from result:', result.cdnUrl)
+      
+      // Simple solution: construct URL manually with correct format
+      // Correct format: https://goc9lmmt47.ucarecd.net/UUID/filename
+      const finalUrl = `https://goc9lmmt47.ucarecd.net/${result.uuid}/${file.name}`
+      
+      console.log('Final URL to save:', finalUrl)
+      onChange(finalUrl)
     } catch (error) {
       console.error('Upload error:', error)
       alert('Error al subir la imagen')
@@ -55,11 +65,11 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
         </label>
       </div>
       {value && (
-        <div className="mt-2">
+        <div className="mt-2 relative h-32 w-32">
           <img
             src={value}
             alt="Preview"
-            className="h-32 w-32 object-cover rounded-md"
+            className="h-full w-full object-cover rounded-md"
           />
         </div>
       )}

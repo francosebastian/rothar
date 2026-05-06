@@ -20,6 +20,20 @@ export default async function AdminOrdersPage() {
       },
     },
   })
+
+  // Convert Decimal to number for client components
+  const serializedOrders = orders.map((order) => ({
+    ...order,
+    total: Number(order.total),
+    items: order.items.map((item) => ({
+      ...item,
+      price: Number(item.price),
+      product: item.product ? {
+        ...item.product,
+        price: Number(item.product.price),
+      } : null,
+    })),
+  }))
   
   return (
     <div>
@@ -55,7 +69,7 @@ export default async function AdminOrdersPage() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {orders.map((order) => (
+            {serializedOrders.map((order) => (
               <tr key={order.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
@@ -78,13 +92,13 @@ export default async function AdminOrdersPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <OrderItemsModal
                     orderId={order.id}
-                    items={order.items as any}
+                    items={order.items}
                     total={order.total}
                   />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">
-                    ${Number(order.total).toLocaleString()}
+                    ${order.total.toLocaleString()}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -118,7 +132,7 @@ export default async function AdminOrdersPage() {
               </tr>
             ))}
 
-            {orders.length === 0 && (
+            {serializedOrders.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
                   No hay pedidos.

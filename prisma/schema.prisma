@@ -35,6 +35,7 @@ model ShippingAddress {
 model Product {
   id          String      @id @default(cuid())
   name        String
+  slug        String      @unique
   price       Decimal
   category    String
   image       String
