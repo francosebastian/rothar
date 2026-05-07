@@ -29,6 +29,14 @@ export default function AdminNav() {
         </li>
         <li>
           <Link
+            href="/admin/blog"
+            className="block py-2 px-4 rounded hover:bg-[#E6DAB9]/10 transition"
+          >
+            Blog
+          </Link>
+        </li>
+        <li>
+          <Link
             href="/admin/pedidos"
             className="block py-2 px-4 rounded hover:bg-[#E6DAB9]/10 transition"
           >
