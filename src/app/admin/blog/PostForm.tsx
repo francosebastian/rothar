@@ -19,8 +19,8 @@ export function PostForm({ post, onCancel }: { post?: any, onCancel?: () => void
     if (initialContent && !initialContent.trim().startsWith('<')) {
       initialContent = initialContent
           .split('\n')
-          .filter(line => line.trim() !== '')
-          .map(line => `<p>${line}</p>`)
+          .filter((line: string) => line.trim() !== '')
+          .map((line: string) => `<p>${line}</p>`)
           .join('')
     }
 

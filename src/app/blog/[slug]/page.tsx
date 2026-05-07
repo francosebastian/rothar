@@ -1,4 +1,5 @@
-import { prisma } from '@/lib/prisma'
+import
+{ prisma } from '@/lib/prisma'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { notFound } from 'next/navigation'
@@ -28,7 +29,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound()
   }
 
-  const decodedContent = he.decode(post.content)
+  const decodedContent = he.decode(post.content.replace(/&nbsp;/g, ' '))
   const formattedContent = formatContent(decodedContent)
 
   return (
@@ -56,7 +57,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
           
           <div 
-            className="prose prose-lg max-w-none text-[#084C4C]"
+            className="prose prose-lg max-w-none text-[#084C4C] break-words hyphens-auto prose-p:mb-6 prose-p:mt-0 prose-headings:mb-8 prose-headings:mt-8 prose-ul:mb-6 prose-ul:mt-4 prose-li:mb-2 prose-li:mt-0 prose-ul:pl-6 prose-ol:pl-6"
             dangerouslySetInnerHTML={{ __html: formattedContent }}
           />
         </div>

@@ -1,11 +1,13 @@
 'use client'
 
 interface ToggleButtonProps {
-  targetId: string
-  label: string
+  targetId?: string
+  label?: string
 }
 
-export function ToggleButton({ targetId, label }: ToggleButtonProps) {
+export function ToggleButton({ targetId, label = 'Toggle' }: ToggleButtonProps) {
+  if (!targetId) return null
+
   return (
     <button
       onClick={() => document.getElementById(targetId)?.classList.toggle('hidden')}
