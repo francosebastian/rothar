@@ -29,6 +29,7 @@ export default function Navbar() {
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [showResults, setShowResults] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
+    const mobileSearchRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
     const itemCount = useCartStore((state) => state.items.reduce((acc, item) => acc + item.cantidad, 0));
     const itemsLength = useCartStore((state) => state.items.length);
@@ -68,7 +69,10 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+            const target = event.target as Node;
+            const isOutsideDesktop = searchRef.current && !searchRef.current.contains(target);
+            const isOutsideMobile = mobileSearchRef.current && !mobileSearchRef.current.contains(target);
+            if (isOutsideDesktop && isOutsideMobile) {
                 setShowResults(false);
             }
         };
@@ -92,13 +96,13 @@ export default function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 lg:h-20">
-                    <Link href="/" className="flex items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2 shrink-0">
                         <Image
                             src="/logo.png"
                             alt="Logo Rothar Workshop"
-                            width={160}
+                            width={110}
                             height={35}
-                            className="object-contain"
+                            className="object-contain lg:w-auto w-[110px]"
                             style={{width: 'auto', height: 'auto'}}
                         />
                     </Link>
@@ -231,6 +235,65 @@ export default function Navbar() {
                         )}
                     </div>
 
+                    <div className="lg:hidden flex-1 mx-2">
+                        <div ref={mobileSearchRef} className="relative">
+                            <div className="flex items-center bg-[#E6DAB9]/10 rounded-lg px-3 py-2">
+                                <svg className="w-4 h-4 text-[#E6DAB9]/70 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => {
+                                        setSearchQuery(e.target.value);
+                                        setShowResults(true);
+                                    }}
+                                    onFocus={() => setShowResults(true)}
+                                    placeholder="Buscar..."
+                                    className="bg-transparent text-[#E6DAB9] placeholder-[#E6DAB9]/50 text-sm outline-none w-full"
+                                />
+                            </div>
+                            {showResults && searchQuery.length > 0 && (
+                                <div className="absolute top-full left-0 right-0 mt-1 bg-[#063d3d] border border-[#E6DAB9]/20 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
+                                    {searchResults.length > 0 ? (
+                                        <>
+                                            {searchResults.map((product) => (
+                                                <Link
+                                                    key={product.id}
+                                                    href={`/tienda?q=${product.name}`}
+                                                    onClick={() => {
+                                                        setShowResults(false);
+                                                        setSearchQuery('');
+                                                    }}
+                                                    className="block px-4 py-3 hover:bg-[#E6DAB9]/10 transition-colors border-b border-[#E6DAB9]/10 last:border-0"
+                                                >
+                                                    <div className="text-[#E6DAB9] text-sm font-medium">{product.name}</div>
+                                                    <div className="text-[#E6DAB9]/60 text-xs mt-1">
+                                                        {product.category} - ${product.price.toLocaleString('es-CL')}
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                            <Link
+                                                href={`/tienda?q=${searchQuery}`}
+                                                onClick={() => {
+                                                    setShowResults(false);
+                                                    setSearchQuery('');
+                                                }}
+                                                className="block px-4 py-3 text-center text-[#E6DAB9] hover:bg-[#E6DAB9]/10 transition-colors text-sm font-medium"
+                                            >
+                                                Ver todos los resultados
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <div className="px-4 py-3 text-[#E6DAB9]/60 text-sm">
+                                            No se encontraron productos
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     <button
                         type="button"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -261,49 +324,63 @@ export default function Navbar() {
                         </svg>
                     </button>
                 </div>
-            </div>
 
-            <div
-                className={`lg:hidden bg-[#063d3d] transition-all duration-300 overflow-hidden ${
-                    isMobileMenuOpen ? 'max-h-96' : 'max-h-0'
-                }`}
-            >
-                <div className="px-4 py-4 space-y-2">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="block text-[#E6DAB9] py-3 hover:text-[#E6DAB9]/70 transition-colors uppercase cursor-pointer"
-                        >
-                            {item.label}
-                        </Link>
-                    ))}
-                    
-                    {isAuthenticated ? (
-                        <>
-                            <div className="text-[#E6DAB9]/70 py-3 text-sm">
-                                {session?.user?.name || session?.user?.email}
-                            </div>
-                            <button
-                                onClick={() => {
-                                    setIsMobileMenuOpen(false);
-                                    signOut({ callbackUrl: '/' });
-                                }}
-                                className="block text-[#E6DAB9] py-3 hover:text-[#E6DAB9]/70 transition-colors uppercase cursor-pointer text-left w-full"
+                <div
+                    className={`lg:hidden bg-[#063d3d] transition-all duration-300 overflow-y-auto ${
+                        isMobileMenuOpen ? 'max-h-[80vh]' : 'max-h-0'
+                    }`}
+                >
+                    <div className="px-4 py-4 space-y-2">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block text-[#E6DAB9] py-3 hover:text-[#E6DAB9]/70 transition-colors uppercase cursor-pointer"
                             >
-                                Cerrar Sesión
-                            </button>
-                        </>
-                    ) : (
-                        <Link
-                            href="/login"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="block text-[#E6DAB9] py-3 hover:text-[#E6DAB9]/70 transition-colors uppercase cursor-pointer"
-                        >
-                            Iniciar Sesión
-                        </Link>
-                    )}
+                                {item.label}
+                            </Link>
+                        ))}
+
+                        <div className="border-t border-[#E6DAB9]/10 pt-4 mt-4">
+                            {isAuthenticated ? (
+                                <div className="flex items-center justify-between">
+                                    <Link
+                                        href="/perfil"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-3 text-sm hover:text-[#E6DAB9]/70 transition-colors"
+                                    >
+                                    <span className="w-8 h-8 bg-[#E6DAB9] text-[#084C4C] rounded-full flex items-center justify-center text-xs font-bold uppercase shrink-0">
+                                        {(session?.user?.name || session?.user?.email || 'U').split(' ')[0].charAt(0)}
+                                    </span>
+                                        <span className="text-[#E6DAB9]">
+                                        {(session?.user?.name || session?.user?.email || 'Usuario').split(' ')[0]}
+                                    </span>
+                                    </Link>
+                                    <button
+                                        onClick={() => {
+                                            setIsMobileMenuOpen(false);
+                                            signOut({ callbackUrl: '/' });
+                                        }}
+                                        className="text-[#E6DAB9] hover:text-[#E6DAB9]/70 transition-colors p-2"
+                                        title="Cerrar Sesión"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            ) : (
+                                <Link
+                                    href="/login"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block w-full text-center bg-green-600 text-white py-3 font-display tracking-wider hover:bg-green-700 transition-colors uppercase"
+                                >
+                                    Iniciar Sesión
+                                </Link>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
