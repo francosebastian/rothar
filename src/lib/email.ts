@@ -88,6 +88,47 @@ export async function sendOrderConfirmationEmail(orderData: OrderEmailData) {
   }
 }
 
+export async function sendPasswordResetEmail(email: string, token: string, name: string) {
+  const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password/${token}`
+
+  try {
+    const data = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'Rothar <onboarding@resend.dev>',
+      to: email,
+      subject: 'Restablece tu contraseña - Rothar',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="text-align: center; padding: 30px 0;">
+            <img src="${process.env.NEXT_PUBLIC_BASE_URL}/logo.png" alt="Rothar" style="height: 50px;" />
+          </div>
+          <h1 style="color: #333; text-align: center;">Restablece tu contraseña</h1>
+          <p style="color: #666; text-align: center; font-size: 16px;">
+            Hola ${name}, recibimos una solicitud para restablecer tu contraseña.
+          </p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetUrl}"
+               style="background-color: #084C4C; color: #E6DAB9; padding: 14px 32px; text-decoration: none; font-size: 16px; display: inline-block;">
+              RESTABLECER CONTRASEÑA
+            </a>
+          </div>
+          <p style="color: #999; font-size: 14px; text-align: center;">
+            Este enlace expira en 1 hora. Si no solicitaste este cambio, ignora este mensaje.
+          </p>
+          <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+          <p style="color: #999; font-size: 12px; text-align: center;">
+            Rothar Workshop - Tu tienda de bicicletas de confianza
+          </p>
+        </div>
+      `,
+    })
+
+    return { success: true, data }
+  } catch (error) {
+    console.error('Error sending password reset email:', error)
+    return { success: false, error }
+  }
+}
+
 export async function sendAdminOrderNotification(orderData: OrderEmailData) {
   const { orderId, customerName, customerEmail, items, total } = orderData
 

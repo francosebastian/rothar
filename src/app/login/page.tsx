@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -34,11 +36,21 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#063d3d] py-12 px-4">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-[#E6DAB9] uppercase tracking-wide">
+        <div className="text-center">
+          <Link href="/" className="inline-block mb-6">
+            <Image
+              src="/logo.png"
+              alt="Rothar Workshop"
+              width={200}
+              height={50}
+              className="object-contain mx-auto"
+              priority
+            />
+          </Link>
+          <h2 className="text-3xl font-extrabold text-[#E6DAB9] uppercase tracking-wide">
             Iniciar Sesión
           </h2>
-          <p className="mt-2 text-center text-sm text-[#E6DAB9]/70">
+          <p className="mt-2 text-sm text-[#E6DAB9]/70">
             O{' '}
             <a href="/registro" className="font-medium text-[#E6DAB9] hover:text-[#E6DAB9]/80">
               Registrate para recibir ofertas
@@ -82,6 +94,15 @@ export default function LoginPage() {
                 placeholder="Contraseña"
               />
             </div>
+          </div>
+
+          <div className="flex items-center justify-end">
+            <Link
+              href="/olvide-password"
+              className="text-sm text-[#E6DAB9]/70 hover:text-[#E6DAB9] transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
           </div>
 
           <div>

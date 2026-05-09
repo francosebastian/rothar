@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     sku: product.sku,
     offers: {
       '@type': 'Offer',
-      priceCurrency: 'ARS',
+      priceCurrency: 'CLP',
       price: product.price,
       availability: product.stock > 0 
         ? 'https://schema.org/InStock' 
