@@ -87,8 +87,42 @@ export function PostForm({ post, onCancel }: { post?: any, onCancel?: () => void
     }
   }
 
-  // Custom handler for images to use Uploadcare
-  const imageHandler = () => {
+   // Custom handler for YouTube videos
+   const videoHandler = () => {
+     const url = prompt('Pega la URL de YouTube:')
+     if (!url) return
+
+     // Extract YouTube video ID from various URL formats
+     let videoId = null
+     const patterns = [
+       /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?.*v=([^&]+)/,
+       /(?:https?:\/\/)?(?:www\.)?youtu\.be\/([^?]+)/,
+       /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([^?]+)/,
+     ]
+
+     for (const pattern of patterns) {
+       const match = url.match(pattern)
+       if (match) {
+         videoId = match[1]
+         break
+       }
+     }
+
+     if (!videoId) {
+       alert('URL de YouTube inválida. Asegurate de usar un formato como: https://www.youtube.com/watch?v=VIDEO_ID')
+       return
+     }
+
+     const quill = (document.querySelector('.ql-editor') as any)?.__quill
+     if (quill) {
+       const range = quill.getSelection()
+       const embedHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+       quill.clipboard.dangerouslyPasteHTML(range.index, embedHtml)
+     }
+   }
+
+   // Custom handler for images to use Uploadcare
+   const imageHandler = () => {
     const input = document.createElement('input')
     input.setAttribute('type', 'file')
     input.setAttribute('accept', 'image/*')
@@ -130,7 +164,8 @@ export function PostForm({ post, onCancel }: { post?: any, onCancel?: () => void
         ['clean']
       ],
       handlers: {
-        'image': imageHandler
+        'image': imageHandler,
+        'video': videoHandler
       }
     }
   }

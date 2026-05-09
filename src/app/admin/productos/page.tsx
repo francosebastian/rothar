@@ -20,7 +20,7 @@ export default async function AdminProductsPage() {
         <h1 className="text-3xl font-bold text-gray-900">
           Gestionar Productos
         </h1>
-        <ToggleButton />
+        <ToggleButton targetId="product-form" label="+ Agregar Producto" />
       </div>
 
       <div id="product-form" className="hidden mb-8">
