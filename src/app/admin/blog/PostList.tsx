@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import type { Post } from '@prisma/client'
+import type { Post } from '@/generated/prisma'
 
 export function PostList({ posts }: { posts: Post[] }) {
   const router = useRouter()

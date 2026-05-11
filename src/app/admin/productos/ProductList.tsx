@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ProductForm } from './ProductForm'
-import type { Product } from '@prisma/client'
+import type { Product } from '@/generated/prisma'
 
 export function ProductList({ products }: { products: Product[] }) {
   const router = useRouter()
