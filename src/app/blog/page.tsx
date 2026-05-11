@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { prisma } from "@/lib/prisma";
 import Link from 'next/link';
+import type { Post } from '@/generated/prisma';
 
 function decodeEntities(content: string) {
   const decoded = content
@@ -47,7 +48,7 @@ export default async function BlogPage() {
       <section className="py-20 bg-[#E6DAB9]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {posts.map((post) => (
+            {posts.map((post: Post) => (
               <div
                 key={post.id}
                 className="flex flex-col bg-[#084C4C] hover:shadow-2xl transition-all duration-300 group"
