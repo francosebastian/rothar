@@ -3,13 +3,15 @@ import { ProductForm } from './ProductForm'
 import { ProductList } from './ProductList'
 import { ToggleButton } from '@/components/ToggleButton'
 
+type ProductType = Awaited<ReturnType<typeof prisma.product.findMany>>[number]
+
 export default async function AdminProductsPage() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: 'desc' },
   })
 
   // Convert Decimal to number for client components
-  const serializedProducts = products.map(p => ({
+  const serializedProducts = products.map((p: ProductType) => ({
     ...p,
     price: Number(p.price),
   }))
