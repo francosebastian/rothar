@@ -1,8 +1,9 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import type { Post } from '@prisma/client'
 
-export function PostList({ posts }: { posts: any[] }) {
+export function PostList({ posts }: { posts: Post[] }) {
   const router = useRouter()
 
   const deletePost = async (id: string) => {
@@ -12,7 +13,7 @@ export function PostList({ posts }: { posts: any[] }) {
     router.refresh()
   }
 
-  const editPost = (post: any) => {
+  const editPost = (post: Post) => {
     // Para simplificar la edición, redirigimos a una nueva ruta de edición
     router.push(`/admin/blog/${post.id}/edit`)
   }
