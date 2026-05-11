@@ -5,9 +5,6 @@ import { OrderItemsModal } from './OrderItemsModal'
 type OrderWithIncludes = Awaited<ReturnType<typeof prisma.order.findMany>>[number]
 type OrderItemWithProduct = OrderWithIncludes['items'][number]
 
-// Inferir tipo del array serializado
-type SerializedOrder = ReturnType<typeof orders.map>[number];
-
 
 export default async function AdminOrdersPage() {
   const orders = await prisma.order.findMany({
