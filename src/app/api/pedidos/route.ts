@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/email'
+import { Prisma } from '@/generated/prisma'
 
 export async function POST(request: NextRequest) {
   try {
@@ -96,12 +97,21 @@ export async function POST(request: NextRequest) {
       })
     }
 
-  // Send confirmation email to customer (don't fail order if email fails)
+    // Send confirmation email to customer (don't fail order if email fails)
     try {
-      type OrderWithItems = Awaited<ReturnType<typeof prisma.order.create>>
+      type OrderWithItems = Prisma.OrderGetPayload<{
+        include: {
+          items: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      }>
       type OrderItemWithProduct = OrderWithItems['items'][number]
 
       const emailData = {
+
         orderId: order.id,
         customerName: order.customerName,
         customerEmail: order.customerEmail,
