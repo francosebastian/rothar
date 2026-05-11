@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import { UserRole } from '@/generated/prisma'
 
+type UserWithCount = Awaited<ReturnType<typeof prisma.user.findMany>>[number]
+
 export default async function AdminUsersPage() {
   const users = await prisma.user.findMany({
     orderBy: { createdAt: 'desc' },
@@ -39,7 +41,7 @@ export default async function AdminUsersPage() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
+            {users.map((user: UserWithCount) => (
               <tr key={user.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
