@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     select: { id: true, stock: true, name: true }
   })
 
-  const existingProductIds = new Set(existingProducts.map(p => p.id))
+  const existingProductIds = new Set(existingProducts.map((p: { id: string }) => p.id))
   const invalidItems = items.filter((item: any) => !existingProductIds.has(item.id))
   
   if (invalidItems.length > 0) {
