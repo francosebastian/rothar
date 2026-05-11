@@ -96,13 +96,16 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Send confirmation email to customer (don't fail order if email fails)
+  // Send confirmation email to customer (don't fail order if email fails)
     try {
+      type OrderWithItems = Awaited<ReturnType<typeof prisma.order.create>>
+      type OrderItemWithProduct = OrderWithItems['items'][number]
+
       const emailData = {
         orderId: order.id,
         customerName: order.customerName,
         customerEmail: order.customerEmail,
-        items: order.items.map((item) => ({
+        items: order.items.map((item: OrderItemWithProduct) => ({
           name: item.product.name,
           quantity: item.quantity,
           price: Number(item.price),
