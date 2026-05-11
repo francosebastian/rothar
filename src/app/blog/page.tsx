@@ -89,3 +89,5 @@ export default async function BlogPage() {
     </main>
   );
 }
+
+export const revalidate = 60;
