@@ -34,7 +34,9 @@ export async function POST(request: NextRequest) {
     select: { id: true, stock: true, name: true }
   })
 
-  const existingProductIds = new Set(existingProducts.map((p: { id: string }) => p.id))
+  type ExistingProduct = typeof existingProducts[number];
+
+  const existingProductIds = new Set(existingProducts.map((p: ExistingProduct) => p.id))
   const invalidItems = items.filter((item: any) => !existingProductIds.has(item.id))
   
   if (invalidItems.length > 0) {
@@ -46,7 +48,7 @@ export async function POST(request: NextRequest) {
 
   // Check stock availability
   for (const item of items) {
-    const product = existingProducts.find(p => p.id === item.id)
+    const product = existingProducts.find((p: ExistingProduct) => p.id === item.id)
     if (product && product.stock < item.cantidad) {
       return NextResponse.json(
         { error: `Stock insuficiente para ${product.name}. Stock disponible: ${product.stock}` },
