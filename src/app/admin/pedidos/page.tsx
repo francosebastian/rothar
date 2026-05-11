@@ -1,8 +1,14 @@
 import { prisma } from '@/lib/prisma'
 import { OrderStatusUpdate } from './OrderStatusUpdate'
 import { OrderItemsModal } from './OrderItemsModal'
+import { Prisma } from '@/generated/prisma'
 
-type OrderWithIncludes = Awaited<ReturnType<typeof prisma.order.findMany>>[number]
+type OrderWithIncludes = Prisma.OrderGetPayload<{
+  include: {
+    items: { include: { product: true } },
+    user: { select: { id: true, name: true, email: true } }
+  }
+}>
 type OrderItemWithProduct = OrderWithIncludes['items'][number]
 
 
