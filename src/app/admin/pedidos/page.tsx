@@ -5,6 +5,10 @@ import { OrderItemsModal } from './OrderItemsModal'
 type OrderWithIncludes = Awaited<ReturnType<typeof prisma.order.findMany>>[number]
 type OrderItemWithProduct = OrderWithIncludes['items'][number]
 
+// Inferir tipo del array serializado
+type SerializedOrder = ReturnType<typeof orders.map>[number];
+
+
 export default async function AdminOrdersPage() {
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: 'desc' },
@@ -72,7 +76,7 @@ export default async function AdminOrdersPage() {
             </tr>
           </thead>
           <tbody className="bg-[#063d3d] divide-y divide-[#E6DAB9]/20">
-            {serializedOrders.map((order) => (
+            {serializedOrders.map((order: any) => (
               <tr key={order.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
