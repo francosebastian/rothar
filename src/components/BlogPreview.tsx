@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import type { Post } from '@/generated/prisma';
 
 export default async function BlogPreview() {
   const posts = await prisma.post.findMany({
@@ -42,7 +43,7 @@ export default async function BlogPreview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {posts.map((post) => (
+          {posts.map((post: Post) => (
             <div
               key={post.id}
               className="bg-[#063d3d] hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group"
