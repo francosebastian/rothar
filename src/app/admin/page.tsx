@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma'
 
+type RecentOrder = Awaited<ReturnType<typeof prisma.order.findMany>>[number]
+
 export default async function AdminDashboard() {
   const [totalProducts, totalOrders, totalUsers, recentOrders] = await Promise.all([
     prisma.product.count({ where: { isActive: true } }),
@@ -52,7 +54,7 @@ export default async function AdminDashboard() {
           Pedidos Recientes
         </h2>
         <div className="space-y-4">
-          {recentOrders.map((order) => (
+          {recentOrders.map((order: RecentOrder) => (
             <div
               key={order.id}
               className="flex justify-between items-center border-b pb-4"
