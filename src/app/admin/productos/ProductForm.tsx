@@ -3,14 +3,17 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ImageUpload } from '@/components/ImageUpload'
+import type { Product } from '@/generated/prisma'
 
-export function ProductForm({ product, onCancel }: { product?: any, onCancel?: () => void }) {
+type SerializedProduct = Omit<Product, 'price'> & { price: number }
+
+export function ProductForm({ product, onCancel }: { product?: SerializedProduct, onCancel?: () => void }) {
   const router = useRouter()
   const [formData, setFormData] = useState({
     id: product?.id || '',
     name: product?.name || '',
     slug: product?.slug || '',
-    price: product?.price || 0,
+    price: product?.price ? Number(product.price) : 0,
     category: product?.category || '',
     image: product?.image || '',
     description: product?.description || '',

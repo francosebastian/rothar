@@ -6,10 +6,12 @@ import Link from 'next/link'
 import { ProductForm } from './ProductForm'
 import type { Product } from '@/generated/prisma'
 
-export function ProductList({ products }: { products: Product[] }) {
+type SerializedProduct = Omit<Product, 'price'> & { price: number }
+
+export function ProductList({ products }: { products: SerializedProduct[] }) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const [editingProduct, setEditingProduct] = useState<SerializedProduct | null>(null)
 
   const handleDelete = async (id: string) => {
     if (!confirm('¿Eliminar este producto?')) return
