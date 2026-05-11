@@ -32,6 +32,8 @@ export default async function OrderSuccessPage() {
     redirect('/tienda')
   }
 
+type OrderItemWithProduct = typeof order.items[number]
+
   return (
     <main className="flex min-h-screen flex-col">
       <Navbar />
@@ -66,7 +68,7 @@ export default async function OrderSuccessPage() {
             <h2 className="text-xl font-display text-[#E6DAB9] tracking-wider mb-4">
               RESUMEN DEL PEDIDO
             </h2>
-              {order.items.map((item) => (
+              {order.items.map((item: OrderItemWithProduct) => (
                 <div
                   key={item.id}
                   className="flex justify-between py-2 border-b border-[#E6DAB9]/20 last:border-0"
