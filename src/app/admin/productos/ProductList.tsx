@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ProductForm } from './ProductForm'
+import type { Product } from '@prisma/client'
 
-export function ProductList({ products }: { products: any[] }) {
+export function ProductList({ products }: { products: Product[] }) {
   const router = useRouter()
   const [loading, setLoading] = useState<string | null>(null)
-  const [editingProduct, setEditingProduct] = useState<any>(null)
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 
   const handleDelete = async (id: string) => {
     if (!confirm('¿Eliminar este producto?')) return
