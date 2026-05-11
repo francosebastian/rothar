@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import CartSummary from '@/components/CartSummary'
 import ProductCard from '@/components/ProductCard'
 
 const categories = [
@@ -114,7 +113,6 @@ function TiendaContent() {
             </div>
           )}
 
-          <CartSummary />
         </div>
       </section>
 

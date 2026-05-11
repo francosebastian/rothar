@@ -1,14 +1,23 @@
 import { PrismaClient } from '@prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
-})
+function createPrismaClient() {
+  const url = process.env.DATABASE_URL!
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
+  if (process.env.VERCEL || url.includes('neon.tech')) {
+    const { PrismaNeon } = require('@prisma/adapter-neon')
+    const adapter = new PrismaNeon({ connectionString: url })
+    return new PrismaClient({ adapter })
+  }
+
+  const { PrismaPg } = require('@prisma/adapter-pg')
+  const adapter = new PrismaPg({ connectionString: url })
+  return new PrismaClient({ adapter })
+}
+
+export const prisma = globalForPrisma.prisma ?? createPrismaClient()
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
