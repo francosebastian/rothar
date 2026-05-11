@@ -1,7 +1,13 @@
 import { prisma } from '@/lib/prisma'
-import { UserRole } from '@/generated/prisma'
+import { Prisma, UserRole } from '@/generated/prisma'
 
-type UserWithCount = Awaited<ReturnType<typeof prisma.user.findMany>>[number]
+type UserWithCount = Prisma.UserGetPayload<{
+  include: {
+    _count: {
+      select: { orders: true }
+    }
+  }
+}>
 
 export default async function AdminUsersPage() {
   const users = await prisma.user.findMany({
