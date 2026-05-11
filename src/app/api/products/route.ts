@@ -27,8 +27,10 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     })
 
+    type Product = Awaited<ReturnType<typeof prisma.product.findMany>>[number]
+
     // Convert Decimal to number for JSON serialization
-    const serializedProducts = products.map(p => ({
+    const serializedProducts = products.map((p: Product) => ({
       ...p,
       price: Number(p.price),
     }))
