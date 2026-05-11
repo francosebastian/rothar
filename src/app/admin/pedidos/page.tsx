@@ -2,6 +2,9 @@ import { prisma } from '@/lib/prisma'
 import { OrderStatusUpdate } from './OrderStatusUpdate'
 import { OrderItemsModal } from './OrderItemsModal'
 
+type OrderWithIncludes = Awaited<ReturnType<typeof prisma.order.findMany>>[number]
+type OrderItemWithProduct = OrderWithIncludes['items'][number]
+
 export default async function AdminOrdersPage() {
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: 'desc' },
@@ -22,10 +25,10 @@ export default async function AdminOrdersPage() {
   })
 
   // Convert Decimal to number for client components
-  const serializedOrders = orders.map((order) => ({
+  const serializedOrders = orders.map((order: OrderWithIncludes) => ({
     ...order,
     total: Number(order.total),
-    items: order.items.map((item) => ({
+    items: order.items.map((item: OrderItemWithProduct) => ({
       ...item,
       price: Number(item.price),
       product: item.product ? {
