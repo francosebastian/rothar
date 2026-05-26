@@ -63,7 +63,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     name: product.name,
     description: product.description,
     image: product.image,
-    sku: product.sku,
+    ...(product.sku && { sku: product.sku }),
     offers: {
       '@type': 'Offer',
       priceCurrency: 'CLP',

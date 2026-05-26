@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,6 +23,9 @@ export async function POST(request: NextRequest) {
         isActive: isActive ?? true,
       },
     })
+
+    revalidatePath('/blog')
+    revalidatePath('/')
 
     return NextResponse.json(post)
   } catch (error) {

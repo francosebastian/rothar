@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 export async function PUT(
   request: NextRequest,
@@ -30,6 +31,10 @@ export async function PUT(
       },
     })
 
+    revalidatePath('/blog')
+    revalidatePath('/')
+    revalidatePath(`/blog/${post.slug}`)
+
     return NextResponse.json(post)
   } catch (error) {
     console.error('PUT error:', error)
@@ -46,6 +51,10 @@ export async function DELETE(
     await prisma.post.delete({
       where: { id },
     })
+
+    revalidatePath('/blog')
+    revalidatePath('/')
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('DELETE error:', error)

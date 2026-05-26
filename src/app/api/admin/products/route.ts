@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
         image,
         description,
         stock: parseInt(stock),
-        sku,
+        sku: sku || undefined,
         isActive: isActive ?? true,
       },
     })

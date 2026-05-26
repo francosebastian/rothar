@@ -29,7 +29,7 @@ export async function PUT(
         ...(image !== undefined && { image }),
         ...(description !== undefined && { description }),
         ...(stock !== undefined && { stock }),
-        ...(sku !== undefined && { sku }),
+        ...(sku !== undefined && { sku: sku || undefined }),
         ...(isActive !== undefined && { isActive }),
       },
     })
