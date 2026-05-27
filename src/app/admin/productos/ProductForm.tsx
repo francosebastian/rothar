@@ -27,6 +27,7 @@ export function ProductForm({ product, onClose }: { product?: SerializedProduct,
     stock: product?.stock || 0,
     sku: product?.sku || '',
     isActive: product?.isActive ?? true,
+    featured: product?.featured ?? false,
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -206,15 +207,27 @@ export function ProductForm({ product, onClose }: { product?: SerializedProduct,
             />
           </div>
 
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              name="isActive"
-              checked={formData.isActive}
-              onChange={handleChange}
-              className="h-4 w-4 text-[#084C4C] focus:ring-[#084C4C] border-[#084C4C]/30 rounded"
-            />
-            <label className="ml-2 block text-sm text-[#084C4C]">Producto activo</label>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="isActive"
+                checked={formData.isActive}
+                onChange={handleChange}
+                className="h-4 w-4 text-[#084C4C] focus:ring-[#084C4C] border-[#084C4C]/30 rounded"
+              />
+              <label className="ml-2 block text-sm text-[#084C4C]">Producto activo</label>
+            </div>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="featured"
+                checked={formData.featured}
+                onChange={handleChange}
+                className="h-4 w-4 text-[#084C4C] focus:ring-[#084C4C] border-[#084C4C]/30 rounded"
+              />
+              <label className="ml-2 block text-sm text-[#084C4C]">Destacado</label>
+            </div>
           </div>
 
           <div className="flex gap-4">

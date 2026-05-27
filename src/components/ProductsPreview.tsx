@@ -6,6 +6,7 @@ import { useCartStore } from '@/lib/store'
 
 interface Product {
   id: string
+  slug: string
   name: string
   price: number
   category: { id: string; name: string; slug: string }
@@ -22,10 +23,10 @@ export default function ProductsPreview() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch('/api/products')
+        const res = await fetch('/api/products?featured=true')
         if (res.ok) {
           const data = await res.json()
-          setProducts(data.slice(0, 3))
+          setProducts(data)
         }
       } catch (error) {
         console.error('Error fetching featured products:', error)
@@ -36,7 +37,8 @@ export default function ProductsPreview() {
     fetchProducts()
   }, [])
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+    e.preventDefault()
     addItem({
       id: product.id,
       nombre: product.name,
@@ -72,9 +74,10 @@ export default function ProductsPreview() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {products.map((product) => (
-            <div
+            <Link
               key={product.id}
-              className="bg-[#084C4C] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group"
+              href={`/tienda/${product.slug}`}
+              className="bg-[#084C4C] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group block"
             >
               <div className="relative h-64 overflow-hidden">
                 <img
@@ -100,14 +103,14 @@ export default function ProductsPreview() {
                     ${product.price.toLocaleString('es-CL')}
                   </span>
                   <button 
-                    onClick={() => handleAddToCart(product)}
+                    onClick={(e) => handleAddToCart(e, product)}
                     className="bg-[#E6DAB9] text-[#084C4C] px-4 py-2 text-sm font-medium hover:bg-[#d4c9a5] transition-colors uppercase"
                   >
                     Agregar
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <div className="text-center">

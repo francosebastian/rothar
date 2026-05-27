@@ -108,6 +108,12 @@ function TiendaContent() {
 
           {loading ? (
             <div className="text-center py-12">Cargando productos...</div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-[#084C4C]/60 text-xl font-display tracking-wider">
+                Sin productos en esta categoría
+              </p>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {products.map((product) => (

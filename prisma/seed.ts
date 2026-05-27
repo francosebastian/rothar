@@ -63,7 +63,7 @@ async function main() {
       description: 'probando', stock: 1, sku: '1234', isActive: false, categoryId: frenosId,
     },
     {
-      name: 'GROUPSET MICROSHIFT ADVENT 9V', slug: 'GROUPSET-ADVENT9V', price: 149900,
+      name: 'GROUPSET MICROSHIFT ADVENT 9V', slug: 'GROUPSET-ADVENT9V', price: 149900, featured: true,
       image: 'https://goc9lmmt47.ucarecd.net/ec252fa4-bd47-49c5-8f92-7d2199ad8c45/1000035016.jpg',
       description: `Grupo Transmisión microSHIFT ADVENT 9v (1x9)
 La evolución del monoplato: ultra resistente, preciso y económico.
@@ -88,7 +88,7 @@ Operación simple y directa: Menos marchas significan un ajuste más fácil, men
       stock: 3, sku: '002', isActive: true, categoryId: transmisionId,
     },
     {
-      name: 'GROUPSET MICROSHIFT ADVENTX', slug: 'GROUPSET-ADVENTX10V', price: 179900,
+      name: 'GROUPSET MICROSHIFT ADVENTX', slug: 'GROUPSET-ADVENTX10V', price: 179900, featured: true,
       image: 'https://goc9lmmt47.ucarecd.net/9dd9bab2-7ab2-44c6-8fb5-44ce23ec2b28/1000035038.jpg',
       description: `Grupo Transmisión microSHIFT ADVENT X 10v (1x10)
 Rendimiento de gama alta a una fracción del peso y del costo.
@@ -129,7 +129,7 @@ El kit incluye: Cassette 11-46T, Cambio Trasero con embrague y Manilla Derecha d
       stock: 5, sku: '0005', isActive: true, categoryId: transmisionId,
     },
     {
-      name: 'GROUPSET MICROSHIFT SWORD 10V', slug: 'GROUPSET-SWORD10V', price: 336000,
+      name: 'GROUPSET MICROSHIFT SWORD 10V', slug: 'GROUPSET-SWORD10V', price: 336000, featured: true,
       image: 'https://goc9lmmt47.ucarecd.net/f1e7d2a0-b2ac-4f4a-996c-3ec796d94bdc/1000035121.jpg',
       description: `La serie SWORD de 10 velocidades es el grupo insignia de la marca diseñado exclusivamente para Gravel y Bikepacking. Diseñado desde cero para manillares de ruta/gravel (dropbar), ofrece un equilibrio impecable entre peso, rango de desarrollos y una ergonomía de primer nivel para pasar largas jornadas sobre la bicicleta.
 Lo más importante:
@@ -143,9 +143,11 @@ El kit incluye: Cassette de rango extendido (11-48T o 11-38T), Cambio Trasero co
   ]
 
   for (const data of products) {
-    const existing = await prisma.product.findUnique({ where: { slug: data.slug } })
-    if (existing) continue
-    await prisma.product.create({ data })
+    await prisma.product.upsert({
+      where: { slug: data.slug },
+      update: { featured: data.featured },
+      create: data,
+    })
   }
   console.log('Default products created')
 

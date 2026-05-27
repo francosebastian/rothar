@@ -6,9 +6,14 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
     const search = searchParams.get('search')
+    const featured = searchParams.get('featured')
 
     const where: any = {
       isActive: true,
+    }
+
+    if (featured === 'true') {
+      where.featured = true
     }
 
     if (category && category !== 'todos') {

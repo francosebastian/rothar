@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, slug, price, categoryId, image, description, stock, sku, isActive } = body
+    const { name, slug, price, categoryId, image, description, stock, sku, isActive, featured } = body
 
     if (!name || !slug || !price || !categoryId) {
       return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 })
@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
         stock: parseInt(stock),
         sku: sku || undefined,
         isActive: isActive ?? true,
+        featured: featured ?? false,
       },
     })
 
