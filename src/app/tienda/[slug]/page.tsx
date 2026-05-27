@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { slug } = await params
   const product = await prisma.product.findUnique({
     where: { slug },
+    include: { category: true },
   })
 
   if (!product) {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   return {
     title: `${product.name} | Rothar`,
     description: product.description || `Comprá ${product.name} en Rothar. Mejor calidad en componentes para bicicletas.`,
-    keywords: [product.category, 'bicicleta', 'componentes', 'Rothar', product.name],
+    keywords: [product.category.name, 'bicicleta', 'componentes', 'Rothar', product.name],
     openGraph: {
       title: product.name,
       description: product.description || `Comprá ${product.name} en Rothar`,
@@ -51,6 +52,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params
   const product = await prisma.product.findUnique({
     where: { slug },
+    include: { category: true },
   })
 
   if (!product || !product.isActive) {
@@ -72,7 +74,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         ? 'https://schema.org/InStock' 
         : 'https://schema.org/OutOfStock',
     },
-    category: product.category,
+    category: product.category.name,
   }
 
   return (
@@ -98,7 +100,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </h1>
           <div className="w-24 h-1 bg-[#E6DAB9] mt-4 mb-2"></div>
           <p className="text-[#E6DAB9]/70 text-lg">
-            {product.category}
+            {product.category.name}
           </p>
         </div>
       </section>

@@ -10,7 +10,7 @@ interface ProductCardProps {
     slug?: string;
     name: string;
     price: number;
-    category: string;
+    category: { id: string; name: string; slug: string } | string;
     image: string;
     description: string;
     stock: number;
@@ -36,6 +36,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   const productSlug = product.slug || product.id;
+  const categoryName = typeof product.category === 'string' ? product.category : product.category?.name || '';
 
   return (
     <Link href={`/tienda/${productSlug}`} className="block">
@@ -46,9 +47,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${product.stock === 0 ? 'opacity-60' : ''}`}
           />
-          <span className="absolute top-4 right-4 bg-[#E6DAB9] text-[#084C4C] text-xs font-medium px-3 py-1 uppercase">
-            {product.category}
-          </span>
+          {categoryName && (
+            <span className="absolute top-4 right-4 bg-[#E6DAB9] text-[#084C4C] text-xs font-medium px-3 py-1 uppercase">
+              {categoryName}
+            </span>
+          )}
           {product.stock === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="bg-red-600 text-white text-sm font-display tracking-wider px-4 py-2 uppercase">

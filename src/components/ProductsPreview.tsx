@@ -1,4 +1,4 @@
- 'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -8,7 +8,7 @@ interface Product {
   id: string
   name: string
   price: number
-  category: string
+  category: { id: string; name: string; slug: string }
   image: string
   description: string
   stock: number
@@ -82,9 +82,11 @@ export default function ProductsPreview() {
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <span className="absolute top-4 right-4 bg-[#E6DAB9] text-[#084C4C] text-xs font-medium px-3 py-1 uppercase">
-                  {product.category}
-                </span>
+                {product.category?.name && (
+                  <span className="absolute top-4 right-4 bg-[#E6DAB9] text-[#084C4C] text-xs font-medium px-3 py-1 uppercase">
+                    {product.category.name}
+                  </span>
+                )}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-display text-[#E6DAB9] tracking-wider mb-2">

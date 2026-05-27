@@ -8,7 +8,7 @@ export async function PUT(
   try {
     const { id } = await params
     const body = await request.json()
-    const { name, slug, price, category, image, description, stock, sku, isActive } = body
+    const { name, slug, price, categoryId, image, description, stock, sku, isActive } = body
 
     if (slug) {
       const existing = await prisma.product.findFirst({
@@ -25,7 +25,7 @@ export async function PUT(
         ...(name && { name }),
         ...(slug && { slug }),
         ...(price !== undefined && { price }),
-        ...(category && { category }),
+        ...(categoryId && { categoryId }),
         ...(image !== undefined && { image }),
         ...(description !== undefined && { description }),
         ...(stock !== undefined && { stock }),

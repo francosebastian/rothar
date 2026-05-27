@@ -7,20 +7,17 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 
-const categories = [
-  "Todos",
-  "Transmisión",
-  "Frenos",
-  "Ruedas",
-  "Dirección",
-  "Sillin"
-];
+interface Category {
+  id: string
+  name: string
+  slug: string
+}
 
 interface Product {
   id: string
   name: string
   price: number
-  category: string
+  category: { id: string; name: string; slug: string }
   image: string
   description: string
   stock: number
@@ -29,21 +26,25 @@ interface Product {
 function TiendaContent() {
   const searchParams = useSearchParams()
   const searchQuery = searchParams.get('q') || ''
-  const [activeCategory, setActiveCategory] = useState('Todos')
+  const [categories, setCategories] = useState<Category[]>([])
+  const [activeCategory, setActiveCategory] = useState('')
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then((res) => res.json())
+      .then(setCategories)
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true)
       try {
         const params = new URLSearchParams()
-        if (activeCategory !== 'Todos') {
-          params.set('category', activeCategory)
-        }
-        if (searchQuery) {
-          params.set('search', searchQuery)
-        }
+        if (activeCategory) params.set('category', activeCategory)
+        if (searchQuery) params.set('search', searchQuery)
 
         const res = await fetch(`/api/products?${params.toString()}`)
         if (res.ok) {
@@ -59,14 +60,6 @@ function TiendaContent() {
 
     fetchProducts()
   }, [activeCategory, searchQuery])
-
-  const filteredProducts = searchQuery
-    ? products.filter(
-        (p) =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.category.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : products
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -88,17 +81,27 @@ function TiendaContent() {
       <section className="py-12 bg-[#E6DAB9]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <button
+              onClick={() => setActiveCategory('')}
+              className={`px-6 py-2 font-display text-lg tracking-wider transition-all duration-300 ${
+                !activeCategory
+                  ? 'bg-[#084C4C] text-[#E6DAB9]'
+                  : 'bg-[#084C4C] text-[#E6DAB9] hover:bg-[#063d3d] shadow-sm'
+              }`}
+            >
+              TODOS
+            </button>
             {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.slug)}
                 className={`px-6 py-2 font-display text-lg tracking-wider transition-all duration-300 ${
-                  activeCategory === cat
+                  activeCategory === cat.slug
                     ? 'bg-[#084C4C] text-[#E6DAB9]'
                     : 'bg-[#084C4C] text-[#E6DAB9] hover:bg-[#063d3d] shadow-sm'
                 }`}
               >
-                {cat.toUpperCase()}
+                {cat.name.toUpperCase()}
               </button>
             ))}
           </div>
@@ -107,12 +110,11 @@ function TiendaContent() {
             <div className="text-center py-12">Cargando productos...</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProducts.map((product) => (
+              {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
-
         </div>
       </section>
 

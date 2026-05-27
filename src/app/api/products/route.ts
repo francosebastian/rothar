@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (category && category !== 'todos') {
-      where.category = category
+      where.category = { slug: category }
     }
 
     if (search) {
@@ -24,13 +24,11 @@ export async function GET(request: NextRequest) {
 
     const products = await prisma.product.findMany({
       where,
+      include: { category: true },
       orderBy: { createdAt: 'desc' },
     })
 
-    type Product = Awaited<ReturnType<typeof prisma.product.findMany>>[number]
-
-    // Convert Decimal to number for JSON serialization
-    const serializedProducts = products.map((p: Product) => ({
+    const serializedProducts = products.map((p) => ({
       ...p,
       price: Number(p.price),
     }))

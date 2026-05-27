@@ -53,6 +53,7 @@ export default function Footer() {
               <li><Link href="/tienda" className="hover:text-[#E6DAB9] transition-colors">Tienda</Link></li>
               <li><Link href="/blog" className="hover:text-[#E6DAB9] transition-colors">Blog</Link></li>
               <li><Link href="/videos" className="hover:text-[#E6DAB9] transition-colors">Videos</Link></li>
+              <li><Link href="/faqs" className="hover:text-[#E6DAB9] transition-colors">Preguntas Frecuentes</Link></li>
             </ul>
           </div>
 
@@ -67,7 +68,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#E6DAB9]/5 pt-8 text-center text-[#E6DAB9]/30 text-sm">
-          <p>© {new Date().getFullYear()} Rothar Workshop. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Rothar Workshop. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

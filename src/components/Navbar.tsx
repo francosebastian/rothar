@@ -156,7 +156,7 @@ export default function Navbar() {
                                                     <div
                                                         className="text-[#E6DAB9] text-sm font-medium">{product.name}</div>
                                                     <div className="text-[#E6DAB9]/60 text-xs mt-1">
-                                                        {product.category} - ${product.price.toLocaleString('es-CL')}
+                                                        {(typeof product.category === 'string' ? product.category : product.category?.name || '')} - ${product.price.toLocaleString('es-CL')}
                                                     </div>
                                                 </Link>
                                             ))}
@@ -269,7 +269,7 @@ export default function Navbar() {
                                                 >
                                                     <div className="text-[#E6DAB9] text-sm font-medium">{product.name}</div>
                                                     <div className="text-[#E6DAB9]/60 text-xs mt-1">
-                                                        {product.category} - ${product.price.toLocaleString('es-CL')}
+                                                        {(typeof product.category === 'string' ? product.category : product.category?.name || '')} - ${product.price.toLocaleString('es-CL')}
                                                     </div>
                                                 </Link>
                                             ))}

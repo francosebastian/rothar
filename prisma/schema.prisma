@@ -34,12 +34,22 @@ model ShippingAddress {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
 model Product {
   id          String      @id @default(cuid())
   name        String
   slug        String      @unique
   price       Decimal
-  category    String
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
   image       String
   description String
   stock       Int         @default(0)
@@ -60,6 +70,16 @@ model Post {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
