@@ -8,12 +8,14 @@ const MP_ACCESS_TOKEN = process.env.MERCADO_PAGO_ACCESS_TOKEN
 const WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET
 
 function validateSignature(body: string, signature: string | null): boolean {
+  console.log('[WEBHOOK] ENV:', process.env.NODE_ENV, '| Has secret:', !!WEBHOOK_SECRET, '| Has signature:', !!signature)
+
   if (!signature) {
-    console.error('[WEBHOOK] No signature')
+    console.error('[WEBHOOK] No signature header')
     return process.env.NODE_ENV === 'development'
   }
   if (!WEBHOOK_SECRET) {
-    console.warn('[WEBHOOK] WEBHOOK_SECRET not set')
+    console.warn('[WEBHOOK] WEBHOOK_SECRET not set in env')
     return process.env.NODE_ENV === 'development'
   }
   try {
@@ -25,18 +27,33 @@ function validateSignature(body: string, signature: string | null): boolean {
       if (k === 'ts') ts = v
       if (k === 'v1') hash = v
     }
-    if (!ts || !hash) return false
+    console.log('[WEBHOOK] Parsed ts:', ts ? `${ts} (age: ${(Date.now() - parseInt(ts) * 1000) / 1000}s)` : 'missing')
+    console.log('[WEBHOOK] Parsed hash:', hash ? `${hash.slice(0, 16)}...` : 'missing')
 
-    if (Date.now() - parseInt(ts) * 1000 > 300000) return false
+    if (!ts || !hash) {
+      console.error('[WEBHOOK] Invalid signature format:', signature)
+      return false
+    }
+
+    if (Date.now() - parseInt(ts) * 1000 > 300000) {
+      console.error('[WEBHOOK] Timestamp too old')
+      return false
+    }
 
     const expected = crypto
       .createHmac('sha256', WEBHOOK_SECRET)
       .update(`${ts}.${body}`)
       .digest('hex')
 
-    return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(expected))
+    const match = crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(expected))
+    console.log('[WEBHOOK] Hash match:', match)
+    if (!match) {
+      console.log('[WEBHOOK] Expected hash:', expected.slice(0, 16) + '...')
+      console.log('[WEBHOOK] Body preview:', body.slice(0, 200))
+    }
+    return match
   } catch (e) {
-    console.error('[WEBHOOK] Signature error:', e)
+    console.error('[WEBHOOK] Signature validation error:', e)
     return false
   }
 }
@@ -45,20 +62,33 @@ export async function POST(request: NextRequest) {
   try {
     const raw = await request.text()
     const signature = request.headers.get('x-signature')
-    const topic = request.headers.get('x-topic') || request.headers.get('x-mercado-pago-topic') || 'payment'
+    const topicHeader = request.headers.get('x-topic') || request.headers.get('x-mercado-pago-topic')
+    const { searchParams } = new URL(request.url)
 
-    console.log(`[WEBHOOK] ${topic}`)
+    // Nuevo formato: JSON body + x-signature
+    if (signature) {
+      if (!validateSignature(raw, signature))
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    if (!validateSignature(raw, signature))
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      let payload: any
+      try { payload = JSON.parse(raw) } catch {
+        return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
+      }
 
-    let payload: any
-    try { payload = JSON.parse(raw) } catch {
-      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
+      const paymentId = payload.data?.id?.toString()
+      if (!paymentId) return NextResponse.json({ error: 'Missing payment_id' }, { status: 400 })
+
+      return handlePayment(paymentId)
     }
 
-    if (topic === 'payment' || payload.type === 'payment')
-      return handlePayment(payload)
+    // Formato IPN viejo: query params, sin firma
+    const paymentId = searchParams.get('data.id') || searchParams.get('id')
+    const topic = topicHeader || searchParams.get('type') || searchParams.get('topic') || 'payment'
+    console.log(`[WEBHOOK] IPN ${topic} id:${paymentId}`)
+
+    if (!paymentId) return NextResponse.json({ error: 'Missing payment_id' }, { status: 400 })
+
+    if (topic === 'payment') return handlePayment(paymentId)
 
     return NextResponse.json({ received: true })
   } catch (e) {
@@ -67,11 +97,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handlePayment(payload: any) {
-  const paymentId = payload.data?.id?.toString()
-  if (!paymentId)
-    return NextResponse.json({ error: 'Missing payment_id' }, { status: 400 })
-
+async function handlePayment(paymentId: string) {
   const mp = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
     headers: { Authorization: `Bearer ${MP_ACCESS_TOKEN}` },
   })
