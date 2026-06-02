@@ -196,17 +196,6 @@ export default function CheckoutPage() {
       const data = await response.json()
 
       if (data.status === 'approved') {
-        // Update order status to PAID
-        try {
-          await fetch(`/api/pedidos/${orderId}/status`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: 'PAID' }),
-          })
-        } catch (updateErr) {
-          console.error('Error updating order status:', updateErr)
-        }
-        
         clearCart()
         router.push('/pedido-exito')
       } else if (data.status === 'pending') {

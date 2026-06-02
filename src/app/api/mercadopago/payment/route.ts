@@ -1,5 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/email'
+import type { OrderEmailData } from '@/lib/email'
 
 const MP_ACCESS_TOKEN = process.env.MERCADO_PAGO_ACCESS_TOKEN;
 
@@ -66,19 +68,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update order status to PAID if payment is approved
     if (data.status === 'approved' && external_reference) {
-      try {
+      const order = await prisma.order.findUnique({
+        where: { id: external_reference },
+        include: { items: { include: { product: true } } },
+      })
+      if (order && order.status === 'PENDING') {
+        for (const item of order.items) {
+          await prisma.product.update({
+            where: { id: item.productId },
+            data: { stock: { decrement: item.quantity } },
+          })
+        }
         await prisma.order.update({
           where: { id: external_reference },
-          data: { 
-            status: 'PAID',
-            paymentId: data.id?.toString(),
-          },
-        });
-        console.log('[PAYMENT] Order updated to PAID:', external_reference);
-      } catch (updateError) {
-        console.error('[PAYMENT] Error updating order:', updateError);
+          data: { status: 'PAID', paymentId: data.id?.toString() },
+        })
+        console.log('[PAYMENT] Order PAID:', external_reference)
+
+        const emailData: OrderEmailData = {
+          orderId: order.id,
+          customerName: order.customerName,
+          customerEmail: order.customerEmail,
+          items: order.items.map(i => ({
+            name: i.product.name,
+            quantity: i.quantity,
+            price: Number(i.price),
+          })),
+          total: Number(order.total),
+          shippingAddress: order.shippingAddress,
+        }
+        sendOrderConfirmationEmail(emailData).catch(e =>
+          console.error('[PAYMENT] Email err:', e)
+        )
+        sendAdminOrderNotification(emailData).catch(e =>
+          console.error('[PAYMENT] Admin email err:', e)
+        )
       }
     }
 

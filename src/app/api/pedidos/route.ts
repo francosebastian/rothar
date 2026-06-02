@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { sendOrderConfirmationEmail, sendAdminOrderNotification } from '@/lib/email'
-import { Prisma } from '@/generated/prisma'
 
 export async function POST(request: NextRequest) {
   try {
@@ -84,51 +82,6 @@ export async function POST(request: NextRequest) {
         },
       },
     })
-
-    // Update product stock
-    for (const item of items) {
-      await prisma.product.update({
-        where: { id: item.id },
-        data: {
-          stock: {
-            decrement: item.cantidad,
-          },
-        },
-      })
-    }
-
-    // Send confirmation email to customer (don't fail order if email fails)
-    try {
-      type OrderWithItems = Prisma.OrderGetPayload<{
-        include: {
-          items: {
-            include: {
-              product: true,
-            },
-          },
-        },
-      }>
-      type OrderItemWithProduct = OrderWithItems['items'][number]
-
-      const emailData = {
-
-        orderId: order.id,
-        customerName: order.customerName,
-        customerEmail: order.customerEmail,
-        items: order.items.map((item: OrderItemWithProduct) => ({
-          name: item.product.name,
-          quantity: item.quantity,
-          price: Number(item.price),
-        })),
-        total: Number(order.total),
-        shippingAddress: order.shippingAddress,
-      }
-
-      await sendOrderConfirmationEmail(emailData)
-      await sendAdminOrderNotification(emailData)
-    } catch (emailError) {
-      console.error('Error sending emails (order still created):', emailError)
-    }
 
     return NextResponse.json({
       success: true,
