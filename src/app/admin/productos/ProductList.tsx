@@ -74,44 +74,57 @@ export function ProductList({ products }: { products: SerializedProduct[] }) {
       )}
 
       {products.length === 0 ? (
-        <div className="bg-[#E6DAB9] rounded-lg shadow p-6 text-center text-[#084C4C]">
+        <div className="bg-white rounded-lg shadow p-6 text-center text-gray-500">
           No hay productos. Agrega uno nuevo.
         </div>
       ) : (
-        <div className="space-y-4">
-          {products.map((product) => (
-            <div key={product.id} className="bg-[#E6DAB9] rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <img src={product.image} alt={product.name} className="h-12 w-12 rounded object-cover" />
-                  <div>
-                    <h3 className="font-display tracking-wider text-[#084C4C]">{product.name}</h3>
-                    <p className="text-sm text-[#084C4C]/70">{product.sku}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => toggleActive(product.id, product.isActive)}
-                    disabled={loading === product.id}
-                    className={`px-2 py-1 text-xs rounded-full font-display tracking-wider ${
-                      product.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    } disabled:opacity-50`}
-                  >
-                    {loading === product.id ? '...' : product.isActive ? 'ACTIVO' : 'INACTIVO'}
-                  </button>
-                  <button onClick={() => openEdit(product)} className="text-[#084C4C] hover:text-[#063d3d] text-sm font-display tracking-wider">EDITAR</button>
-                  <button onClick={() => handleDelete(product.id)} disabled={loading === product.id} className="text-red-600 hover:text-red-900 text-sm font-display tracking-wider disabled:opacity-50">
-                    {loading === product.id ? 'ELIMINANDO...' : 'ELIMINAR'}
-                  </button>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4 text-sm text-[#084C4C]/70">
-                <div><span className="font-display tracking-wider">CATEGORÍA:</span> {(product as any).category?.name || product.categoryId}</div>
-                <div><span className="font-display tracking-wider">PRECIO:</span> ${Number(product.price).toLocaleString()}</div>
-                <div><span className="font-display tracking-wider">STOCK:</span> {product.stock}</div>
-              </div>
-            </div>
-          ))}
+        <div className="bg-white shadow rounded-lg overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Imagen</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Categoría</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Precio</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {product.image && <img src={product.image} alt={product.name} className="h-10 w-10 rounded object-cover" />}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                    {product.sku && <div className="text-sm text-gray-500">{product.sku}</div>}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{(product as any).category?.name || product.categoryId}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">${Number(product.price).toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{product.stock}</td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => toggleActive(product.id, product.isActive)}
+                      disabled={loading === product.id}
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        product.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      } disabled:opacity-50`}
+                    >
+                      {loading === product.id ? '...' : product.isActive ? 'ACTIVO' : 'INACTIVO'}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 text-right text-sm space-x-2">
+                    <button onClick={() => openEdit(product)} className="text-indigo-600 hover:text-indigo-900">Editar</button>
+                    <button onClick={() => handleDelete(product.id)} disabled={loading === product.id} className="text-red-600 hover:text-red-900 disabled:opacity-50">
+                      {loading === product.id ? 'Eliminando...' : 'Eliminar'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </>

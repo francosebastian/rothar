@@ -25,29 +25,21 @@ export function PostList({ posts }: { posts: Post[] }) {
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Título</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-gray-200">
           {posts.map((post) => (
             <tr key={post.id}>
-              <td className="px-6 py-4 whitespace-nowrap">{post.title}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                {post.isActive ? 'Activo' : 'Inactivo'}
+              <td className="px-6 py-4 text-sm font-medium text-gray-900">{post.title}</td>
+              <td className="px-6 py-4">
+                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${post.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  {post.isActive ? 'Activo' : 'Inactivo'}
+                </span>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap flex gap-2">
-                <button
-                  onClick={() => editPost(post)}
-                  className="text-blue-600 hover:text-blue-900"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => deletePost(post.id)}
-                  className="text-red-600 hover:text-red-900"
-                >
-                  Eliminar
-                </button>
+              <td className="px-6 py-4 text-right text-sm space-x-2">
+                <button onClick={() => editPost(post)} className="text-indigo-600 hover:text-indigo-900">Editar</button>
+                <button onClick={() => deletePost(post.id)} className="text-red-600 hover:text-red-900">Eliminar</button>
               </td>
             </tr>
           ))}

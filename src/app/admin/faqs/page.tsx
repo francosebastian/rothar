@@ -111,27 +111,38 @@ export default function AdminFaqsPage() {
       )}
 
       {faqs.length === 0 ? (
-        <div className="bg-[#E6DAB9] rounded-lg shadow p-6 text-center text-[#084C4C]">No hay preguntas frecuentes.</div>
+        <div className="bg-white rounded-lg shadow p-6 text-center text-gray-500">No hay preguntas frecuentes.</div>
       ) : (
-        <div className="space-y-4">
-          {faqs.map((faq) => (
-            <div key={faq.id} className="bg-[#E6DAB9] rounded-lg shadow p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <h3 className="font-display tracking-wider text-[#084C4C]">{faq.question}</h3>
-                  <p className="text-sm text-[#084C4C]/70 mt-1">{faq.answer}</p>
-                  <p className="text-xs text-[#084C4C]/50 mt-1">Orden: {faq.order}</p>
-                </div>
-                <div className="flex items-center gap-2 ml-4">
-                  <button onClick={() => toggleActive(faq)} className={`px-2 py-1 text-xs rounded-full ${faq.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                    {faq.isActive ? 'ACTIVO' : 'INACTIVO'}
-                  </button>
-                  <button onClick={() => openEdit(faq)} className="text-indigo-600 hover:text-indigo-900 text-sm">Editar</button>
-                  <button onClick={() => handleDelete(faq.id)} className="text-red-600 hover:text-red-900 text-sm">Eliminar</button>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="bg-white shadow rounded-lg overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pregunta</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Respuesta</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Orden</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {faqs.map((faq) => (
+                <tr key={faq.id}>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{faq.question}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{faq.answer}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500">{faq.order}</td>
+                  <td className="px-6 py-4">
+                    <button onClick={() => toggleActive(faq)} className={`px-2 py-1 text-xs rounded-full ${faq.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      {faq.isActive ? 'ACTIVO' : 'INACTIVO'}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 text-right text-sm space-x-2">
+                    <button onClick={() => openEdit(faq)} className="text-indigo-600 hover:text-indigo-900">Editar</button>
+                    <button onClick={() => handleDelete(faq.id)} className="text-red-600 hover:text-red-900">Eliminar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
