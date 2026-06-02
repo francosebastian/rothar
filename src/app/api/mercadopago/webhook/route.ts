@@ -65,30 +65,33 @@ export async function POST(request: NextRequest) {
     const topicHeader = request.headers.get('x-topic') || request.headers.get('x-mercado-pago-topic')
     const { searchParams } = new URL(request.url)
 
-    // Nuevo formato: JSON body + x-signature
-    if (signature) {
-      if (!validateSignature(raw, signature))
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-      let payload: any
-      try { payload = JSON.parse(raw) } catch {
-        return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
-      }
-
-      const paymentId = payload.data?.id?.toString()
-      if (!paymentId) return NextResponse.json({ error: 'Missing payment_id' }, { status: 400 })
-
-      return handlePayment(paymentId)
+    // IPN viejo: query params (MP lo envía incluso con x-signature cuando hay secret)
+    const paymentId = searchParams.get('data.id') || searchParams.get('id')
+    const topic = topicHeader || searchParams.get('type') || searchParams.get('topic')
+    if (paymentId) {
+      console.log(`[WEBHOOK] IPN ${topic} id:${paymentId}`)
+      if (topic === 'payment') return handlePayment(paymentId)
+      return NextResponse.json({ received: true })
     }
 
-    // Formato IPN viejo: query params, sin firma
-    const paymentId = searchParams.get('data.id') || searchParams.get('id')
-    const topic = topicHeader || searchParams.get('type') || searchParams.get('topic') || 'payment'
-    console.log(`[WEBHOOK] IPN ${topic} id:${paymentId}`)
+    // Nuevo formato: JSON body + x-signature
+    if (!signature) {
+      console.error('[WEBHOOK] No signature and no query params')
+      return NextResponse.json({ error: 'Bad request' }, { status: 400 })
+    }
 
-    if (!paymentId) return NextResponse.json({ error: 'Missing payment_id' }, { status: 400 })
+    if (!validateSignature(raw, signature))
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    if (topic === 'payment') return handlePayment(paymentId)
+    let payload: any
+    try { payload = JSON.parse(raw) } catch {
+      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
+    }
+
+    const paymentId2 = payload.data?.id?.toString()
+    if (!paymentId2) return NextResponse.json({ error: 'Missing payment_id' }, { status: 400 })
+
+    return handlePayment(paymentId2)
 
     return NextResponse.json({ received: true })
   } catch (e) {
