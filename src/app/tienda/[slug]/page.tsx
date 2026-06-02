@@ -136,7 +136,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
 
               {product.description && (
-                <p className="text-[#E6DAB9]/70 mb-8 leading-relaxed">
+                <p className="text-[#E6DAB9]/70 mb-8 leading-relaxed whitespace-pre-wrap">
                   {product.description}
                 </p>
               )}

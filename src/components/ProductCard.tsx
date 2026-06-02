@@ -64,7 +64,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <h3 className="text-xl font-display text-[#E6DAB9] tracking-wider mb-2">
             {product.name}
           </h3>
-          <p className="text-[#E6DAB9]/70 text-sm mb-4 line-clamp-2">
+          <p className="text-[#E6DAB9]/70 text-sm mb-4 line-clamp-2 whitespace-pre-wrap">
             {product.description}
           </p>
           <div className="flex items-center justify-between">
