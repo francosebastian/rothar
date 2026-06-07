@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rothar Workshop
 
-## Getting Started
+E-commerce de componentes y taller de bicicletas. Venta de grupos microSHIFT, accesorios y servicios de mantenimiento.
 
-First, run the development server:
+## Stack
+
+| Capa | Tecnología |
+|------|-----------|
+| Framework | Next.js 16.2 (App Router) |
+| UI | React 19.2, Tailwind CSS 4 |
+| Lenguaje | TypeScript 5 |
+| DB | PostgreSQL 16 + Prisma 7 (ORM) |
+| Auth | NextAuth v5 (JWT, Credentials) |
+| Pagos | MercadoPago API |
+| Estado cliente | Zustand 5 (persist localStorage) |
+| Email | Resend |
+| Uploads | UploadCare |
+| Editor | React Quill |
+| Despliegue | Vercel |
+
+## Comenzar
 
 ```bash
+npm install
+docker compose up -d    # PostgreSQL 16 + Adminer (:8080)
+npx prisma generate
+npx prisma migrate dev
+npx prisma db seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variables de entorno en `.env.local` (ver `.env` para referencia).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentación
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Arquitectura](architecture.md)
+- [Especificaciones](specs.md)
+- [Features (roadmap)](features.md)
+- [Comandos y convenciones](AGENTS.md)
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/          # App Router (páginas + API routes)
+├── components/   # UI compartidos (Navbar, Footer, cards, etc.)
+├── lib/          # Prisma, auth, email, store, youtube
+├── data/         # Datos estáticos
+└── generated/    # Prisma client generado
+prisma/
+├── schema.prisma # Modelos DB
+├── migrations/   # Migraciones SQL
+└── seed.ts       # Seed data
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Comandos
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Comando | Descripción |
+|---------|------------|
+| `npm run dev` | Dev server |
+| `npm run build` | Build producción |
+| `npm run lint` | ESLint |
+| `npx tsc --noEmit` | Typecheck |
+| `npx prisma studio` | DB visual |
+| `npx prisma migrate dev` | Migración |
 
-## Deploy on Vercel
+## Skills Instaladas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+12 skills en `.opencode/skills/`: next-best-practices, seo, accessibility, tailwind-css-patterns, frontend-design, typescript-advanced-types, nodejs-best-practices, nodejs-backend-patterns, composition-patterns, react-best-practices, next-cache-components, next-upgrade.

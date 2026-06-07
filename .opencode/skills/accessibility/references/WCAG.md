@@ -129,12 +129,14 @@
 ```
 
 ### Navigation
+
 ```html
+
 <nav aria-label="Main">
-  <ul>
-    <li><a href="/" aria-current="page">Home</a></li>
-    <li><a href="/about">About</a></li>
-  </ul>
+    <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
 </nav>
 ```
 

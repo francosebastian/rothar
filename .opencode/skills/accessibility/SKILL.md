@@ -300,11 +300,11 @@ function showSessionWarning() {
 ```html
 <!-- Navigation should be consistent across pages -->
 <nav aria-label="Main">
-  <ul>
-    <li><a href="/" aria-current="page">Home</a></li>
-    <li><a href="/products">Products</a></li>
-    <li><a href="/about">About</a></li>
-  </ul>
+    <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
 </nav>
 ```
 
