@@ -33,7 +33,7 @@ Todos los tests usan el puerto **3000** (puerto por defecto de Next.js).
 | F5 — Contacto funcional | ✅ Completado | — |
 | F6 — Admin Nav completo | ✅ Completado | — |
 | F7 — SEO: Sitemap + robots.txt + Schema.org | ✅ Completado | `6adf494` |
-| F8 — Error pages: error.tsx + not-found.tsx | ⏳ Pendiente | — |
+| F8 — Error pages: error.tsx + not-found.tsx | ✅ Completado | `09be7e7` |
 | F9 — Tipar `any` en API routes y libs | ⏳ Pendiente | — |
 | F10 — Migrar `<img>` a `next/image` | ⏳ Pendiente | — |
 | F11 — Habilitar cacheComponents (PPR) | ⏳ Pendiente | — |
