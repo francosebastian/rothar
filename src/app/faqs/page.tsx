@@ -23,6 +23,19 @@ export default function FaqsPage() {
       .catch(() => setLoading(false))
   }, [])
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+
   return (
     <main className="min-h-screen bg-[#E6DAB9]">
       <Navbar />
@@ -69,6 +82,12 @@ export default function FaqsPage() {
         </div>
       </section>
 
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <Footer />
     </main>
   )
